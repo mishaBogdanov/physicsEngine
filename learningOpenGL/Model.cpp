@@ -16,6 +16,8 @@ Model::Model(std::string location) {
 
 void Model::setupModel(float gmass) {
 	localY = glm::vec3(0, 1, 0);
+	localX = glm::vec3(1, 0, 0);
+	localZ = glm::vec3(0, 0, 1);
 	mass = gmass;
 	translation = glm::mat4(1);
 	inverseTranslation = glm::mat4(1);
@@ -168,6 +170,7 @@ void Model::Draw(Camera cam) {
 }
 
 void Model::update(float deltaT) {
+
 	cm = cm + velocity * deltaT;
 	//vpc::printVec(cm);
 	
@@ -175,6 +178,9 @@ void Model::update(float deltaT) {
 		glm::mat4 t = glm::rotate(glm::mat4(1), MyMath::getVectorMagnitude(angularVelocityDirection) * deltaT, angularVelocityDirection);
 		translation = t * translation;
 		inverseTranslation = glm::inverse(translation);
+		localY = translation * glm::vec4(0, 1, 0, 0);
+		localX = translation * glm::vec4(1, 0, 0, 0);
+		localZ = translation * glm::vec4(0, 0, 1, 0);
 	}
 
 	if (wantedSteeringPos != currentSteeringPosition) {
@@ -185,6 +191,20 @@ void Model::update(float deltaT) {
 			currentSteeringPosition = min(currentSteeringPosition + deltaT * steeringRate, wantedSteeringPos);
 		}
 	}
+
+	if (wantedVerticalSteeringPos != currentVerticalSteeringPosition) {
+		if (currentVerticalSteeringPosition > wantedVerticalSteeringPos) {
+			currentVerticalSteeringPosition = max(currentVerticalSteeringPosition - deltaT * verticalSteeringRate, wantedVerticalSteeringPos);
+		}
+		else {
+			currentVerticalSteeringPosition = min(currentVerticalSteeringPosition + deltaT * verticalSteeringRate, verticalSteeringRate);
+		}
+	}
+
+	if (currentVerticalSteeringPosition != 0) {
+		pitchRotate(currentVerticalSteeringPosition, deltaT);
+	}
+
 	if (currentSteeringPosition != 0) {
 		driveRotate(currentSteeringPosition, deltaT);
 	}
@@ -730,7 +750,8 @@ void Model::dealWithImpulses() {
 	}
 	if (initialize) {
 		if (MyMath::getVectorMagnitudeSquared(vUpdate) > 0.75 || MyMath::getVectorMagnitudeSquared(velocity)>0.9 || 
-			MyMath::getVectorMagnitudeSquared(aVUpdate) > 0.0001 || MyMath::getVectorMagnitudeSquared(angularVelocityDirection) > 0.01) {
+			MyMath::getVectorMagnitudeSquared(aVUpdate) > 0.0001 || MyMath::getVectorMagnitudeSquared(angularVelocityDirection) > 0.01
+			|| currentlyFlying) {
 			velocity += vUpdate;
 			frictionShouldApply = true;
 			angularVelocityDirection += aVUpdate;
@@ -758,8 +779,21 @@ void Model::accelerateForward(float ammount, float deltaT) {
 }
 
 void Model::driveRotate(float degrees, float deltaT) {
-	rotate(-degrees * glm::length(velocity) * deltaT/ 7, localY);
+	if (currentlyFlying) {
+		rotate(-degrees * deltaT * 100 / 7, localY);
+	}
+	else if (currentlyDriving) {
+		rotate(-degrees * glm::length(velocity) * deltaT / 7, localY);
+
+	}
 	velocity = glm::rotate(velocity, glm::radians(-degrees * glm::length(velocity) * deltaT/7), localY);
+}
+
+void Model::pitchRotate(float degrees, float deltaT) {
+	if (currentlyFlying) {
+		rotate(-degrees * deltaT * 100 / 7, localX);
+	}
+	//velocity = glm::rotate(velocity, glm::radians(-degrees * glm::length(velocity) * deltaT / 7), localY);
 }
 
 void Model::driveRotateX(float degrees, float deltaT) {
@@ -824,9 +858,18 @@ bool Model::getCurrentlyDriving() {
 	return currentlyDriving;
 }
 
+bool Model::getCurrentlyFlying() {
+	return currentlyFlying;
+}
+
+void Model::setCurrentlyFlying(bool given) {
+	currentlyFlying = given;
+}
+
 void Model::setWantedRotation(float wanted) {
 	wantedSteeringPos = wanted;
 }
+
 
 void Model::setWantedVerticalRotation(float wanted) {
 	wantedVerticalSteeringPos = wanted;

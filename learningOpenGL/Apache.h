@@ -13,10 +13,10 @@ private:
 	glm::vec3 z = glm::vec3(0, 0, 1);
 	Model* gModel;
 	World* gWorld;
-	glm::vec3 propellerForce = glm::vec3(0);
+	glm::vec3 propellerForce = glm::vec3(0,0,0);
 	float massModdel;
 public:
-	Apache(float mass, Model * gModdel);
+	Apache(float mass, Model * gModdel, World * givenWorld);
 	void shoot();
 	void processInput(float dt);
 	void update(float dt);

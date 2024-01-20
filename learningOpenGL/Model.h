@@ -65,6 +65,7 @@ private:
 	std::vector<ShaderClass> shaders;
 	bool movable;
 	bool currentlyDriving = false;
+	bool currentlyFlying = false;
 
 
 	float steeringRate = 20.0f;
@@ -168,6 +169,7 @@ public:
 	void setMass(float mass);
 	void accelerateForward(float acceleration, float deltaT);
 	void driveRotate(float degrees, float deltaT);
+	void pitchRotate(float degrees, float deltaT);
 	void driveRotateX(float degrees, float deltaT);
 	bool impulsesEmpty();
 	glm::vec3 applyInverseInertiaTensor(glm::vec3 pos, glm::vec3 normal);
@@ -178,8 +180,12 @@ public:
 	glm::vec3 getTotalForces();
 	void addForce(glm::vec3 force);
 	glm::vec3 getForces();
+	
 	void setCurrentlyDriving(bool given);
 	bool getCurrentlyDriving();
+	void setCurrentlyFlying(bool given);
+	bool getCurrentlyFlying();
+
 	void setWantedRotation(float wanted);
 	void setWantedVerticalRotation(float wanted);
 
@@ -189,4 +195,7 @@ public:
 	void upadateFacingdirection(double newMouseX, double newMouseY);
 	bool isMoving();
 };
+
+
+
 

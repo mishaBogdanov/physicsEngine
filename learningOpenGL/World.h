@@ -44,9 +44,9 @@ private:
 	double physDeltaT;
 	double deltaT;
 	float time;
-	std::vector<Model> models;
+	std::vector<Model> models = std::vector<Model>();
 	std::vector<Floor> floors;
-	std::vector<Apache> helicopters;
+	std::vector<Apache> helicopters = std::vector<Apache>();
 	GLFWwindow* window;
 
 	std::vector<IntersectionModel> currentCollisions;
@@ -133,6 +133,8 @@ public:
 	Model* getModel(int i);
 	glm::vec3 getRelativeVelocities(Model& m1, Model& m2, glm::vec3 & atPoint, glm::vec3 & normal);
 	void dealWithImpulse(Model& m1, Model& m2);
-
+	glm::vec3* getGravity();
 };
+
+
 

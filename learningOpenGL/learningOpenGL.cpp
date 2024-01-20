@@ -29,11 +29,11 @@ int main()
 	//std::this_thread::sleep_for(6s);
 	//FloatingCollisions t = FloatingCollisions();
 	//Simple2BoxCollision v = Simple2BoxCollision();
-	//TowerOfBoxes t = TowerOfBoxes();
+	TowerOfBoxes t = TowerOfBoxes();
 	//RoomWorld t = RoomWorld();
 	//RawTesla t = RawTesla();
 	//Dust2Map m = Dust2Map();
-	DominoesWorld d = DominoesWorld();
+	//DominoesWorld d = DominoesWorld();
 
 	//World test = World(0, 0, 0, 0, false);
 	//test.setupGLFW();
@@ -57,6 +57,9 @@ int main()
 	//test.getModel(0);
 
 	//test.startRenderLoop();
+	//std::vector<int> t;
+	//t.reserve(10000);
+	//std::cout << t[0];
 
 
 

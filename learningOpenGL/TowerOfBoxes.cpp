@@ -9,9 +9,9 @@ TowerOfBoxes::TowerOfBoxes() {
 	test.addModel("BasicCube.object", 30, glm::vec3(50,-9, 50), true, false);
 
 
-	//test.addVehichle("Apache.object", 20, glm::vec3(-10, 160 + 30, -10));
+	test.addVehichle("Apache.object", 20, glm::vec3(-10, 160 + 30, -10));
 	//test.addModel("Apache.object", 20, glm::vec3(-10, 160 + 30, -10), true, true);
-	test.addModel("BasicCube.object", 5, glm::vec3(-10, 200, -10), true, true);
+	//test.addModel("BasicCube.object", 5, glm::vec3(-10, 200, -10), true, true);
 
 	//test.setMass(2, 40000);
 	//test.setVelocity(1, glm::vec3(100, 0, 0));
