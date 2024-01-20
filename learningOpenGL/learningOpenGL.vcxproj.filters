@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Resource Files\shaders">
+      <UniqueIdentifier>{d1f7af25-272e-4236-9834-746155f43a4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\textures">
+      <UniqueIdentifier>{00f96cc9-7811-4adc-80a1-5fefe2772676}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\models">
+      <UniqueIdentifier>{e3a493a9-f0a5-4915-be89-5db65bf3f624}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Worlds">
+      <UniqueIdentifier>{94d5d18e-0595-4734-924f-af704e5d0d8e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="learningOpenGL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExperimentingWithShaders.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VBO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EBO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VAO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stb.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="floor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SubSpace.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyMath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Hitbox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vectorPrintingClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TowerOfBoxes.cpp">
+      <Filter>Worlds</Filter>
+    </ClCompile>
+    <ClCompile Include="floatingCollisions.cpp">
+      <Filter>Worlds</Filter>
+    </ClCompile>
+    <ClCompile Include="Simple2BoxCollision.cpp">
+      <Filter>Worlds</Filter>
+    </ClCompile>
+    <ClCompile Include="RoomWorld.cpp">
+      <Filter>Worlds</Filter>
+    </ClCompile>
+    <ClCompile Include="rawTesla.cpp">
+      <Filter>Worlds</Filter>
+    </ClCompile>
+    <ClCompile Include="Dust2Map.cpp">
+      <Filter>Worlds</Filter>
+    </ClCompile>
+    <ClCompile Include="DominoesWorld.cpp">
+      <Filter>Worlds</Filter>
+    </ClCompile>
+    <ClCompile Include="AIdrive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Users\slomi\OneDrive\Desktop\glad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Apache.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ExperimentingWithShaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VBO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EBO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VAO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="floor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SubSpace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyMath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Hitbox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vectorPrintingClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TowerOfBoxes.h">
+      <Filter>Worlds</Filter>
+    </ClInclude>
+    <ClInclude Include="floatingCollisions.h">
+      <Filter>Worlds</Filter>
+    </ClInclude>
+    <ClInclude Include="Simple2BoxCollision.h">
+      <Filter>Worlds</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomWorld.h">
+      <Filter>Worlds</Filter>
+    </ClInclude>
+    <ClInclude Include="rawTesla.h">
+      <Filter>Worlds</Filter>
+    </ClInclude>
+    <ClInclude Include="Dust2Map.h">
+      <Filter>Worlds</Filter>
+    </ClInclude>
+    <ClInclude Include="DominoesWorld.h">
+      <Filter>Worlds</Filter>
+    </ClInclude>
+    <ClInclude Include="AIdrive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Apache.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\Downloads\awesomeface.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\..\..\Downloads\greggor.png">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+    <Image Include="triangleGreggor.png">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="default.vert">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="default.frag">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="default.geom">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="outline.frag">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="outline.geom">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="TeslaTruck.object">
+      <Filter>Resource Files\models</Filter>
+    </None>
+    <None Include="dust2.object">
+      <Filter>Resource Files\models</Filter>
+    </None>
+    <None Include="floor.vert">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="floor.frag">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="floorOutline.geom">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="floorFill.frag">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="floorFill.vert">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="BasicCube.object">
+      <Filter>Resource Files\models</Filter>
+    </None>
+    <None Include="Dust2Raw.object">
+      <Filter>Resource Files\models</Filter>
+    </None>
+    <None Include="Dust2Hitbox.object">
+      <Filter>Resource Files\models</Filter>
+    </None>
+    <None Include="Apache.object">
+      <Filter>Resource Files\models</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="learningOpenGL.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="simpleBox.object">
+      <Filter>Resource Files\models</Filter>
+    </Text>
+    <Text Include="Domino.object">
+      <Filter>Resource Files\models</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
