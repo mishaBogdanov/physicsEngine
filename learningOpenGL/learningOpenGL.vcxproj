@@ -144,6 +144,7 @@
     <ClCompile Include="ExperimentingWithShaders.cpp" />
     <ClCompile Include="floatingCollisions.cpp" />
     <ClCompile Include="floor.cpp" />
+    <ClCompile Include="HeliMissile.cpp" />
     <ClCompile Include="Hitbox.cpp" />
     <ClCompile Include="learningOpenGL.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="ExperimentingWithShaders.h" />
     <ClInclude Include="floatingCollisions.h" />
     <ClInclude Include="floor.h" />
+    <ClInclude Include="HeliMissile.h" />
     <ClInclude Include="Hitbox.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
@@ -208,6 +210,7 @@
     <None Include="floorFill.vert" />
     <None Include="floorOutline.geom" />
     <None Include="floor.vert" />
+    <None Include="Missile.object" />
     <None Include="outline.frag" />
     <None Include="outline.geom" />
     <None Include="TeslaTruck.object" />

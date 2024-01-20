@@ -41,6 +41,16 @@ void Apache::processInput(float dt) {
 		gModel->setWantedRotation(0.0);
 	}
 
+	if (GetKeyState('D') & 0x8000) {
+		gModel->setWantedRollRotation(-4.0);
+	}
+	else if (GetKeyState('A') & 0x8000) {
+		gModel->setWantedRollRotation(4.0);
+	}
+	else {
+		gModel->setWantedRollRotation(0.0);
+	}
+
 
 
 	//if (GetKeyState('R') & 0x8000) {

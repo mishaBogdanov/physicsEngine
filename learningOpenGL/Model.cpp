@@ -121,8 +121,13 @@ Model::Model(std::string location, glm::vec3 physLocation) {
 
 
 Model::Model(std::string location, float scale, glm::vec3 physLocation, int hitbox) {
-
-	if (hitbox == 2) {
+	if (location == "Apache.object") {
+		load(location, scale, true, physLocation, true);
+		loadAppache(scale * scale * scale * 2);
+		gScale = scale;
+		type = "A";
+	}
+	else if (hitbox == 2) {
 		loadHitbox(location, scale, physLocation);
 		setupHitbox();
 	}
@@ -161,12 +166,22 @@ glm::mat4 Model::getTransformation() {
 //}
 
 void Model::Draw(Camera cam) {
-	for (int i = 0; i < mesh.size(); i++) {
-		for (int k = 0; k < shaders.size(); k++) {
-			mesh[i].Draw(shaders[k], cam);
+	if (type == "") {
+		for (int i = 0; i < mesh.size(); i++) {
+			for (int k = 0; k < shaders.size(); k++) {
+				mesh[i].Draw(shaders[k], cam);
+			}
+
 		}
+	}
+	else if (type == "A") {
+		mesh[1].Draw(shaders[0], cam);
+		mesh[1].Draw(shaders[1], cam);
+		mesh[0].Draw(shaders[2], cam);
+		mesh[0].Draw(shaders[3], cam);
 
 	}
+	
 }
 
 void Model::update(float deltaT) {
@@ -178,10 +193,12 @@ void Model::update(float deltaT) {
 		glm::mat4 t = glm::rotate(glm::mat4(1), MyMath::getVectorMagnitude(angularVelocityDirection) * deltaT, angularVelocityDirection);
 		translation = t * translation;
 		inverseTranslation = glm::inverse(translation);
-		localY = translation * glm::vec4(0, 1, 0, 0);
-		localX = translation * glm::vec4(1, 0, 0, 0);
-		localZ = translation * glm::vec4(0, 0, 1, 0);
+
 	}
+
+	localY = translation * glm::vec4(0, 1, 0, 0);
+	localX = translation * glm::vec4(1, 0, 0, 0);
+	localZ = translation * glm::vec4(0, 0, 1, 0);
 
 	if (wantedSteeringPos != currentSteeringPosition) {
 		if (currentSteeringPosition > wantedSteeringPos) {
@@ -201,12 +218,29 @@ void Model::update(float deltaT) {
 		}
 	}
 
+	if (wantedRollSteeringPos != currentRollSteeringPosition) {
+		if (currentRollSteeringPosition > wantedRollSteeringPos) {
+			currentRollSteeringPosition = max(currentRollSteeringPosition - deltaT * rollSteeringRate, wantedRollSteeringPos);
+		}
+		else {
+			currentRollSteeringPosition = min(currentRollSteeringPosition + deltaT * rollSteeringRate, rollSteeringRate);
+		}
+	}
+
+	if (currentlyFlying) {
+		velocity = velocity * (float)pow(2, glm::length(velocity) * deltaT * (-0.01f));
+	}
+
 	if (currentVerticalSteeringPosition != 0) {
 		pitchRotate(currentVerticalSteeringPosition, deltaT);
 	}
 
 	if (currentSteeringPosition != 0) {
 		driveRotate(currentSteeringPosition, deltaT);
+	}
+
+	if (currentRollSteeringPosition != 0) {
+		driveRollX(currentRollSteeringPosition, deltaT);
 	}
 
 	if (MyMath::getVectorMagnitudeSquared(angularVelocityDirection) < 0.0000000001) {
@@ -233,11 +267,30 @@ void Model::update(float deltaT) {
 		hitboxes[i].update(&full, &translation);
 	}
 
-
-	for (int k = 0; k < shaders.size(); k++) {
-		shaders[k].Activate();
-		glUniformMatrix4fv(glGetUniformLocation(shaders[k].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(getTransformation()));
+	if (type == "") {
+		for (int k = 0; k < shaders.size(); k++) {
+			shaders[k].Activate();
+			glUniformMatrix4fv(glGetUniformLocation(shaders[k].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(getTransformation()));
+		}
 	}
+
+	else if (type == "A") {
+		glm::mat4 bladeRotation = getTransformation()
+			
+			* glm::translate(glm::mat4(1), glm::vec3(0, 0, +0.65) * gScale) *
+			glm::rotate(glm::mat4(1), glm::radians(bladeRotationAngle), glm::vec3(0,1,0)) * glm::translate(glm::mat4(1), glm::vec3(0,0,-0.65) * gScale);
+		bladeRotationAngle += bladeRotationRate * deltaT;
+			shaders[0].Activate();
+			glUniformMatrix4fv(glGetUniformLocation(shaders[0].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(getTransformation()));
+			shaders[1].Activate();
+			glUniformMatrix4fv(glGetUniformLocation(shaders[1].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(getTransformation()));
+			shaders[2].Activate();
+			glUniformMatrix4fv(glGetUniformLocation(shaders[2].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(bladeRotation));
+			shaders[3].Activate();
+			glUniformMatrix4fv(glGetUniformLocation(shaders[3].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(bladeRotation));
+		
+	}
+	
 }
 
 void Model::setVelocity(glm::vec3& v) {
@@ -793,12 +846,14 @@ void Model::pitchRotate(float degrees, float deltaT) {
 	if (currentlyFlying) {
 		rotate(-degrees * deltaT * 100 / 7, localX);
 	}
-	//velocity = glm::rotate(velocity, glm::radians(-degrees * glm::length(velocity) * deltaT / 7), localY);
 }
 
 void Model::driveRotateX(float degrees, float deltaT) {
 	rotate(-degrees * glm::length(velocity) * deltaT / 7, localX);
-	//velocity = glm::rotate(velocity, glm::radians(-degrees * glm::length(velocity) * deltaT / 7), localX);
+}
+
+void Model::driveRollX(float degrees, float deltaT) {
+	rotate(-degrees * glm::length(velocity) * deltaT / 7, localZ);
 }
 
 bool Model::impulsesEmpty() {
@@ -875,6 +930,10 @@ void Model::setWantedVerticalRotation(float wanted) {
 	wantedVerticalSteeringPos = wanted;
 }
 
+void Model::setWantedRollRotation(float wanted) {
+	wantedRollSteeringPos = wanted;
+}
+
 void Model::addFrictionForce(Friction gImp) {
 	frictions.push_back(gImp);
 }
@@ -911,6 +970,61 @@ bool Model::isMoving() {
 	return MyMath::getVectorMagnitudeSquared(velocity) > 0.5; //friction !!!
 }
 
+void Model::loadAppache(float gmass) {
+	localY = glm::vec3(0, 1, 0);
+	localX = glm::vec3(1, 0, 0);
+	localZ = glm::vec3(0, 0, 1);
+	mass = gmass;
+	translation = glm::mat4(1);
+	inverseTranslation = glm::mat4(1);
+	velocity = glm::vec3(0, 0, 0);
+	angularVelocityDirection = glm::vec3(0, 0, 0);
+	angularVelocity = 0;
+	facing = glm::vec3(0, 0, 1);
+	ShaderClass shaderProgram("default.vert", "default.geom", "default.frag");
+	ShaderClass shaderProgram2("default.vert", "outline.geom", "outline.frag");
+	ShaderClass bladesShader("default.vert", "default.geom", "default.frag");
+	ShaderClass bladesShader2("default.vert", "outline.geom", "outline.frag");
 
+	shaders.push_back(shaderProgram);
+	shaders.push_back(shaderProgram2);
+	shaders.push_back(bladesShader);
+	shaders.push_back(bladesShader2);
+
+	for (int k = 0; k < shaders.size(); k++) {
+		shaders[k].Activate();
+		glUniformMatrix4fv(glGetUniformLocation(shaders[k].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(getTransformation()));
+	}
+
+
+	movable = true;
+
+
+	bounceFactor = 0.3f;
+	frictionFactor = 0.7f;
+	glm::vec3 negCm = originalCm * (-1.0f);
+	glm::vec3 originalCmSet = originalCm;
+	moveBy(negCm);
+
+	moveBy(originalCmSet);
+
+	for (int i = 0; i < distToCenter.size(); i += 2) {
+		//std::cout << distToCenter[i] << " " << distToCenter[i + 1] << "\n";
+		float average = distToCenter[i] - distToCenter[i + 1];
+		distToCenter[i] = average / 2;
+		distToCenter[i + 1] = average / (-2);
+
+	}
+
+
+	inertiaTensor = glm::mat3(1);
+
+	inertiaTensor[0][0] = mass / 12 * (pow(distToCenter[2] - distToCenter[3], 2) + (pow(distToCenter[4] - distToCenter[5], 2)));
+	//std::cout << "got here \n";
+
+	inertiaTensor[1][1] = mass / 12 * (pow(distToCenter[0] - distToCenter[1], 2) + (pow(distToCenter[4] - distToCenter[5], 2)));
+	inertiaTensor[2][2] = mass / 12 * (pow(distToCenter[0] - distToCenter[1], 2) + (pow(distToCenter[2] - distToCenter[3], 2)));
+	inverseInertiaTensor = glm::inverse(inertiaTensor);
+}
 
 

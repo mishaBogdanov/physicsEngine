@@ -76,6 +76,10 @@ private:
 	float wantedVerticalSteeringPos = 0;
 	float currentVerticalSteeringPosition = 0;
 
+	float rollSteeringRate = 20.0f;
+	float wantedRollSteeringPos = 0;
+	float currentRollSteeringPosition = 0;
+
 	//std::vector<float> wallsDistance;
 
 
@@ -83,6 +87,7 @@ private:
 	//std::vector<glm::vec3> originalCorners;
 	glm::vec3 cm;
 	glm::vec3 originalCm;
+	
 	//std::vector<glm::vec3> hitboxVectors;
 
 	std::vector<Hitbox> hitboxes;
@@ -100,6 +105,12 @@ private:
 	float mass;
 	float frictionFactor;
 
+	float gScale;
+	std::string type;
+
+	float bladeRotationAngle = 0;
+	float bladeRotationRate = 700;
+
 	std::vector<Model*> debugger;
 
 	void setupModel(float mass);
@@ -108,6 +119,7 @@ private:
 	bool loadHitbox(std::string opening, float scale,  glm::vec3 newLocation);
 	void createHitbox(float PosX, float PosY, float PosZ, float NegX, float NegY, float NegZ);
 	void setupHitbox();
+	void loadAppache(float gMass);
 
 
 
@@ -120,7 +132,7 @@ public:
 	Model(std::string filepath, float scale, glm::vec3 location, int hitbox); // 1 is normal hitbox, 2 is detailed hitbox, 3 is no hitbox
 	Model(float length, float gheight, float gz, float gx);
 
-
+	
 	//Model(std::string filepath, glm::vec3 location)
 
 
@@ -169,8 +181,7 @@ public:
 	void setMass(float mass);
 	void accelerateForward(float acceleration, float deltaT);
 	void driveRotate(float degrees, float deltaT);
-	void pitchRotate(float degrees, float deltaT);
-	void driveRotateX(float degrees, float deltaT);
+
 	bool impulsesEmpty();
 	glm::vec3 applyInverseInertiaTensor(glm::vec3 pos, glm::vec3 normal);
 	glm::mat4 getInverseTransformation();
@@ -188,6 +199,10 @@ public:
 
 	void setWantedRotation(float wanted);
 	void setWantedVerticalRotation(float wanted);
+	void setWantedRollRotation(float wanted);
+	void pitchRotate(float degrees, float deltaT);
+	void driveRotateX(float degrees, float deltaT);
+	void driveRollX(float degrees, float deltaT);
 
 
 	void addFrictionForce(Friction gImp);

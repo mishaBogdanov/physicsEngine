@@ -111,6 +111,9 @@
     <ClCompile Include="Apache.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="HeliMissile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExperimentingWithShaders.h">
@@ -188,6 +191,9 @@
     <ClInclude Include="Apache.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="HeliMissile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\Downloads\awesomeface.png">
@@ -247,6 +253,9 @@
       <Filter>Resource Files\models</Filter>
     </None>
     <None Include="Apache.object">
+      <Filter>Resource Files\models</Filter>
+    </None>
+    <None Include="Missile.object">
       <Filter>Resource Files\models</Filter>
     </None>
   </ItemGroup>
