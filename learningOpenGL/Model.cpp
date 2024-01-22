@@ -1,10 +1,7 @@
 #include "Model.h"
 #pragma warning(disable:4996)
-#include "Mesh.h"
 #include <iostream>
 #include <cstdio>
-#include "MyMath.h"
-#include "vectorPrintingClass.h"
 
 
 
@@ -127,6 +124,12 @@ Model::Model(std::string location, float scale, glm::vec3 physLocation, int hitb
 		gScale = scale;
 		type = "A";
 	}
+	else if (location == "Missile.object") {
+		load(location, scale, true, physLocation, true);
+		setupModel(scale * scale * scale * 2);
+		setupMissile();
+		type = "M";
+	}
 	else if (hitbox == 2) {
 		loadHitbox(location, scale, physLocation);
 		setupHitbox();
@@ -161,12 +164,24 @@ glm::mat4 Model::getTransformation() {
 	return glm::translate(glm::mat4(1), cm) * translation * glm::translate(glm::mat4(1), -originalCm);
 }
 
+void Model::setTransformation(glm::mat4 newTransformation) {
+	translation = newTransformation;
+}
+
 //glm::mat4 Model::getInverseTransformation() {
 //	return glm::translate(glm::mat4(1), -cm) * 
 //}
 
-void Model::Draw(Camera cam) {
-	if (type == "") {
+void Model::Draw(Camera& cam) {
+	if (type == "A") {
+		mesh[1].Draw(shaders[0], cam);
+		mesh[1].Draw(shaders[1], cam);
+		mesh[0].Draw(shaders[2], cam);
+		mesh[0].Draw(shaders[3], cam);
+
+	}
+
+	else {
 		for (int i = 0; i < mesh.size(); i++) {
 			for (int k = 0; k < shaders.size(); k++) {
 				mesh[i].Draw(shaders[k], cam);
@@ -174,13 +189,7 @@ void Model::Draw(Camera cam) {
 
 		}
 	}
-	else if (type == "A") {
-		mesh[1].Draw(shaders[0], cam);
-		mesh[1].Draw(shaders[1], cam);
-		mesh[0].Draw(shaders[2], cam);
-		mesh[0].Draw(shaders[3], cam);
-
-	}
+	
 	
 }
 
@@ -267,14 +276,9 @@ void Model::update(float deltaT) {
 		hitboxes[i].update(&full, &translation);
 	}
 
-	if (type == "") {
-		for (int k = 0; k < shaders.size(); k++) {
-			shaders[k].Activate();
-			glUniformMatrix4fv(glGetUniformLocation(shaders[k].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(getTransformation()));
-		}
-	}
+	
 
-	else if (type == "A") {
+	if (type == "A") {
 		glm::mat4 bladeRotation = getTransformation()
 			
 			* glm::translate(glm::mat4(1), glm::vec3(0, 0, +0.65) * gScale) *
@@ -289,6 +293,11 @@ void Model::update(float deltaT) {
 			shaders[3].Activate();
 			glUniformMatrix4fv(glGetUniformLocation(shaders[3].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(bladeRotation));
 		
+	}else {
+		for (int k = 0; k < shaders.size(); k++) {
+			shaders[k].Activate();
+			glUniformMatrix4fv(glGetUniformLocation(shaders[k].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(getTransformation()));
+		}
 	}
 	
 }
@@ -1027,4 +1036,44 @@ void Model::loadAppache(float gmass) {
 	inverseInertiaTensor = glm::inverse(inertiaTensor);
 }
 
+void Model::setupMissile() {
+	type = "M";
+	shaders.clear();
+	ShaderClass shaderProgram("Missile.vert",  "Missile.frag");
+	ShaderClass shaderProgram2("default.vert", "outline.geom", "outline.frag");
+
+	shaders.push_back(shaderProgram);
+	shaders.push_back(shaderProgram2);
+
+	shaderProgram.Activate();
+	glUniformMatrix4fv(glGetUniformLocation(shaderProgram.ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(getTransformation()));
+	shaderProgram2.Activate();
+	glUniformMatrix4fv(glGetUniformLocation(shaderProgram2.ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(getTransformation()));
+}
+
+
+glm::vec3* Model::getZ() {
+	return &localZ;
+}
+
+glm::vec3* Model::getX() {
+	return &localX;
+}
+
+glm::vec3* Model::getY() {
+	return &localY;
+}
+
+float Model::getScale() {
+	return gScale;
+}
+
+std::string Model::getType() {
+	return type;
+}
+
+void Model::setScale(float gScale) { // !!!
+	translation = glm::mat4(gScale);
+	translation[3][3] = 1;
+}
 

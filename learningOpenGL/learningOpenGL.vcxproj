@@ -136,12 +136,14 @@
     <ClCompile Include="..\..\..\..\Users\slomi\OneDrive\Desktop\glad.c" />
     <ClCompile Include="AIdrive.cpp" />
     <ClCompile Include="Apache.cpp" />
+    <ClCompile Include="ApacheWorld.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CollisionBox.cpp" />
     <ClCompile Include="DominoesWorld.cpp" />
     <ClCompile Include="Dust2Map.cpp" />
     <ClCompile Include="EBO.cpp" />
     <ClCompile Include="ExperimentingWithShaders.cpp" />
+    <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="floatingCollisions.cpp" />
     <ClCompile Include="floor.cpp" />
     <ClCompile Include="HeliMissile.cpp" />
@@ -166,12 +168,14 @@
   <ItemGroup>
     <ClInclude Include="AIdrive.h" />
     <ClInclude Include="Apache.h" />
+    <ClInclude Include="ApacheWorld.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CollisionBox.h" />
     <ClInclude Include="DominoesWorld.h" />
     <ClInclude Include="Dust2Map.h" />
     <ClInclude Include="EBO.h" />
     <ClInclude Include="ExperimentingWithShaders.h" />
+    <ClInclude Include="Explosion.h" />
     <ClInclude Include="floatingCollisions.h" />
     <ClInclude Include="floor.h" />
     <ClInclude Include="HeliMissile.h" />
@@ -210,17 +214,22 @@
     <None Include="floorFill.vert" />
     <None Include="floorOutline.geom" />
     <None Include="floor.vert" />
+    <None Include="Missile.frag" />
     <None Include="Missile.object" />
+    <None Include="Missile.vert" />
     <None Include="outline.frag" />
     <None Include="outline.geom" />
     <None Include="TeslaTruck.object" />
+    <None Include="TreeArea.object" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="learningOpenGL.rc" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Domino.object" />
+    <Text Include="Explosion.object" />
     <Text Include="simpleBox.object" />
+    <Text Include="WallObject.object" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

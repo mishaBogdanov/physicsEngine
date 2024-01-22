@@ -5,13 +5,14 @@ TowerOfBoxes::TowerOfBoxes() {
 	World test = World(0, 0, 0, 0, true);
 	test.setupGLFW();
 	test.addFloor(10, 100, 0, -30, 0);
+	test.setupExplosions();
 	test.addModel("BasicCube.object", 500, glm::vec3(0, -490, 0), true, false);
 	test.addModel("BasicCube.object", 30, glm::vec3(50,-9, 50), true, false);
 
 
-	//test.addVehichle("Apache.object", 20, glm::vec3(-10, 160 + 30, -10));
+	test.addVehichle("Apache.object", 20, glm::vec3(-10, 160 + 30, -10));
 	//test.addModel("Apache.object", 20, glm::vec3(-10, 160 + 30, -10), true, true);
-	test.addModel("TeslaTruck.object", 10, glm::vec3(-10, 200, -10), true, true);
+	//test.addModel("TeslaTruck.object", 19, glm::vec3(-10, 200, -10), true, true);
 
 	//test.setMass(2, 40000);
 	//test.setVelocity(1, glm::vec3(100, 0, 0));
@@ -26,11 +27,11 @@ TowerOfBoxes::TowerOfBoxes() {
 	//test.setVelocity(1, glm::vec3(0, -10, 0));
 
 	test.addModel("BasicCube.object", 27, glm::vec3(100, 280 + 50, 100), true, true);
-	test.addModel("BasicCube.object", 33, glm::vec3(100, 320 + 50, 100), true, true);
+	test.addModel("BasicCube.object", 33, glm::vec3(100, 345 + 50, 100), true, true);
 	test.addModel("BasicCube.object", 55, glm::vec3(100, 340 + 50, 310), true, true);
-	test.addModel("BasicCube.object", 13, glm::vec3(100, 360 + 50, 100), true, true);
-	test.addModel("BasicCube.object", 12, glm::vec3(100, 400 + 50, 100), true, true);
-	test.addModel("BasicCube.object", 28, glm::vec3(140, 440 + 50, 100), true, true);
+	test.addModel("BasicCube.object", 13, glm::vec3(100, 415 + 50, 100), true, true);
+	test.addModel("BasicCube.object", 10, glm::vec3(100, 440 + 50, 100), true, true);
+	test.addModel("BasicCube.object", 28, glm::vec3(190, 440 + 50, 100), true, true);
 	//test.addModel("BasicCube.object", 5, glm::vec3(3, 460 + 50, 3), true, true);
 	//test.addModel("BasicCube.object", 9, glm::vec3(3, 460 + 50, 3), true, true);
 	//test.addModel("BasicCube.object", 14, glm::vec3(3, 280 + 50, 3), true, true);

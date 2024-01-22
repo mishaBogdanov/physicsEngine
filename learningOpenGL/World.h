@@ -23,6 +23,7 @@
 #include <algorithm>
 #include <set>
 #include "Apache.h"
+#include "Explosion.h"
 //#include "Hitbox.h"
 //class Hitbox;
 //class Model;
@@ -50,6 +51,8 @@ private:
 	GLFWwindow* window;
 
 	std::vector<IntersectionModel> currentCollisions;
+	std::vector<int > explosions;
+
 
 	static const unsigned int SCR_WIDTH = 200;
 	static const unsigned int SCR_HEIGHT = 100;
@@ -61,6 +64,8 @@ private:
 	float pixels[SCR_WIDTH * SCR_HEIGHT * 3] = { 0 };
 
 	Camera cam = Camera(SCR_WIDTH, SCR_HEIGHT * xScale, 1, glm::vec3(0.0f, 20.0f, 20.0f));
+
+	std::vector<Explosion> explosionModels;
 
 	bool pushed = false;
 	bool isDriving = false;
@@ -78,6 +83,12 @@ private:
 
 	void detectCollisions();
 	void dealWithCollisions();
+	void dealWithExplosions();
+	void applyExplosionForce(Model * missile, Model * object);
+	void eraseExplosions();
+
+	//void explode(Model* given);
+	//void eraseExplosions();
 	void dealWithFirstMovable(int i);
 	void dealWithSecondMovable(int i);
 	void generateContacts(Model& m1, Model& m2, std::vector<Contact>& given);
@@ -134,6 +145,9 @@ public:
 	glm::vec3 getRelativeVelocities(Model& m1, Model& m2, glm::vec3 & atPoint, glm::vec3 & normal);
 	void dealWithImpulse(Model& m1, Model& m2);
 	glm::vec3* getGravity();
+	int getModelsSize();
+	void setTransformation(int index, glm::mat4 & gTranslation);
+	void setupExplosions();
 };
 
 

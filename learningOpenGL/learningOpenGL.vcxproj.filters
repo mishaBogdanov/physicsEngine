@@ -114,6 +114,12 @@
     <ClCompile Include="HeliMissile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Explosion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApacheWorld.cpp">
+      <Filter>Worlds</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExperimentingWithShaders.h">
@@ -194,6 +200,12 @@
     <ClInclude Include="HeliMissile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Explosion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApacheWorld.h">
+      <Filter>Worlds</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\Downloads\awesomeface.png">
@@ -258,6 +270,15 @@
     <None Include="Missile.object">
       <Filter>Resource Files\models</Filter>
     </None>
+    <None Include="Missile.vert">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="Missile.frag">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="TreeArea.object">
+      <Filter>Resource Files\models</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="learningOpenGL.rc">
@@ -269,6 +290,12 @@
       <Filter>Resource Files\models</Filter>
     </Text>
     <Text Include="Domino.object">
+      <Filter>Resource Files\models</Filter>
+    </Text>
+    <Text Include="Explosion.object">
+      <Filter>Resource Files\models</Filter>
+    </Text>
+    <Text Include="WallObject.object">
       <Filter>Resource Files\models</Filter>
     </Text>
   </ItemGroup>

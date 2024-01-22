@@ -50,13 +50,9 @@ void Apache::processInput(float dt) {
 	else {
 		gModel->setWantedRollRotation(0.0);
 	}
-
-
-
-	//if (GetKeyState('R') & 0x8000) {
-	//	glm::vec3 v = glm::vec3(0);
-	//	drivable->setVelocity(v);
-	//}
+	if (GetKeyState('X') & 0x8000) {
+		shoot();
+	}
 }
 
 void Apache::update(float dt) {
@@ -70,4 +66,26 @@ void Apache::update(float dt) {
 
 Model* Apache::getModdel() {
 	return gModel;
+}
+
+void Apache::shoot() {
+	if (glfwGetTime() - lastShotTime > 0.3) {
+		shootingRight = !shootingRight;
+		gWorld->addModel("Missile.object", 20,
+			*gModel->getZ() * 3.0f * gModel->getScale() +
+			*gModel->getY() * (-0.8f) * gModel->getScale() +
+			*gModel->getX() * (shootingRight ? 0.7f : -0.7f) * gModel->getScale() +
+			*gModel->getCm()
+			, true, true);
+		gWorld->setVelocity(gWorld->getModelsSize() - 1, *gModel->getZ() * 1000.0f);
+
+
+		glm::mat4 mat = *gModel->getRawTransformation() * glm::rotate(glm::mat4(1), (float)glm::radians(90.0f), glm::vec3(0, 1, 0));
+
+
+		gWorld->setTransformation(gWorld->getModelsSize() - 1, mat);
+
+		lastShotTime = glfwGetTime();
+	}
+	
 }

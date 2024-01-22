@@ -6,6 +6,11 @@
 
 #include<glm/gtx/rotate_vector.hpp>
 
+#include "Mesh.h"
+#include "MyMath.h"
+#include "vectorPrintingClass.h"
+
+
 
 
 #include <iostream>
@@ -120,7 +125,7 @@ private:
 	void createHitbox(float PosX, float PosY, float PosZ, float NegX, float NegY, float NegZ);
 	void setupHitbox();
 	void loadAppache(float gMass);
-
+	void setupMissile();
 
 
 	
@@ -137,8 +142,9 @@ public:
 
 
 	void Draw(ShaderClass& shader, ShaderClass& shader2, Camera cam);
-	void Draw(Camera cam);
+	void Draw(Camera &cam);
 	glm::mat4 getTransformation();
+	void setTransformation(glm::mat4 gTransfomation);
 
 
 	void update(float deltaT);
@@ -209,6 +215,12 @@ public:
 	void dealWithFrictionForce();
 	void upadateFacingdirection(double newMouseX, double newMouseY);
 	bool isMoving();
+	glm::vec3* getZ();
+	glm::vec3* getY();
+	glm::vec3* getX();
+	float getScale();
+	std::string getType();
+	void setScale(float gScale);
 };
 
 

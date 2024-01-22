@@ -12,7 +12,7 @@ DominoesWorld::DominoesWorld() {
 
 	test.addModel("BasicCube.object", 25, glm::vec3(-100, 10, 100), true, true);
 	test.addModel("BasicCube.object", 50, glm::vec3(100, 10, 100), true, false);
-	for (int i = 0; i < 40; i++) {
+	for (int i = 0; i < 80; i++) {
 		test.addModel("Domino.object", 5, glm::vec3(i * 5 + 40, 20, 0), true, true);
 	}
 	glm::vec3 t = glm::vec3(0, 0, 1);

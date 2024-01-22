@@ -21,7 +21,10 @@ World::World(float distX, float distY, float distZ, int divs, bool gravity) {
 	gravityEnabled = gravity;
 	models.reserve(200);
 	helicopters.reserve(30);
+	explosionModels.reserve(20);
 }
+
+
 
 void World::setupGLFW() {
 	// glfw: initialize and configure
@@ -281,6 +284,13 @@ void World::renderModels() {
 		floors[i].Draw(cam);
 	}
 
+	for (int i = 0; i < explosionModels.size(); i++) {
+		if (explosionModels[i].getEnabled()) {
+			explosionModels[i].draw();
+
+		}
+	}
+
 }
 
 void World::update() {
@@ -289,6 +299,9 @@ void World::update() {
 	}
 	for (int i = 0; i < helicopters.size(); i++) {
 		helicopters[i].update(deltaT);
+	}
+	for (int i = 0; i < explosionModels.size(); i++) {
+		explosionModels[i].update(deltaT);
 	}
 }
 
@@ -361,8 +374,13 @@ void World::detectCollisions() {
 		float intersectBy;
 		IntersectionModel model;
 		bool colliding = checkHitboxes(models[modelsToCheck[i]], models[modelsToCheck[i + 1]], model);
-
-		if (colliding) {
+		if (colliding && models[modelsToCheck[i]].getType() == "M") {
+			explosions.push_back(modelsToCheck[i]);
+		}
+		else if (colliding && models[modelsToCheck[i + 1]].getType() == "M") {
+			explosions.push_back(modelsToCheck[i+1]);
+		}
+		else if (colliding) {
 			currentCollisions.push_back(model);
 		}
 	}
@@ -376,42 +394,26 @@ void World::startRenderLoop() {
 	{
 		deltaT = glfwGetTime() - time;
 		time = glfwGetTime();
-		// input
-		// -----
 
 		processInput();
 
-
-		// render
-		// ------
-
 		clearScreen();
 
-		// be sure to activate the shader before any calls to glUniform
-		//glBindTexture(GL_TEXTURE_2D, texture);
 
 
-		cam.setMatrix(90.0f, 3.0f, 800.0f);
+		cam.setMatrix(90.0f, 20.0f, 2000.0f);
 
 		update();
 		detectCollisions();
 		dealWithCollisions();
-
+		dealWithExplosions();
+		eraseExplosions();
 		applyDealWithImpulses();
 		applyDrag(deltaT);
-
-		//detectPointFace(*models[0].getHitbox(0), *models[1].getHitbox(0));
-		//detectPointFace(*models[1].getHitbox(0), *models[0].getHitbox(0));
-		//detectEdgeEdge(*models[1].getHitbox(0), *models[0].getHitbox(0));
 
 		renderModels();
 
 		screenToPixel();
-
-
-
-
-		//processInput();
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
@@ -522,6 +524,58 @@ bool World::checkHitboxesColliding(Hitbox& hitbox1, Hitbox& hitbox2, float& curi
 	//std::cout << curintersect << "\n";
 
 	return true;
+}
+
+void World::dealWithExplosions() {
+	for (int i = 0; i < explosions.size(); i++) {
+		Model* rocket = &models[explosions[i]];
+		for (int k = 0; k < explosionModels.size(); k++) {
+			if (!explosionModels[k].getEnabled()) {
+				explosionModels[k].enable(*rocket->getCm());
+				break;
+			}
+		}
+		for (int k = 0; k < models.size(); k++) {
+			if (models[k].getType() != "M") {
+				applyExplosionForce(rocket, &models[k]);
+			}
+		}
+		std::cout << explosionModels.size();
+
+		
+	}
+}
+
+void World::eraseExplosions() {
+	for (int i = 0; i < explosions.size(); i++) {
+		models.erase(models.begin() + explosions[i]);
+
+		for (int k = i+1; k < explosions.size(); k++) {
+			if (explosions[i] > explosions[k]) {
+				// nothing 
+			}
+			else if (explosions[i] < explosions[k]) {
+				explosions[k] = explosions[k] - 1;
+			}
+			else if (explosions[i] == explosions[k]) {
+				explosions.erase(explosions.begin() + k);
+			}
+		}
+	}
+	explosions.clear();
+}
+
+void World::applyExplosionForce(Model* missile, Model* object) {
+	if (object->isMovable() && object->getType() != "A") {
+		glm::vec3 impulse = *object->getCm() - *missile->getCm();
+		impulse = glm::normalize(impulse) / MyMath::getVectorMagnitudeSquared(impulse) * 10000000000.0f;
+		Impulse imp;
+		imp.direction = impulse;
+		imp.position = *object->getCm();
+		imp.centerCollision = *object->getCm();
+		object->addImpulse(imp);
+	}
+	
 }
 
 
@@ -875,9 +929,23 @@ glm::vec3* World::getGravity() {
 	return &gravityAcceleration;
 }
 
+int World::getModelsSize() {
+	return models.size();
+}
+
+void World::setTransformation(int i, glm::mat4& g) {
+	models[i].setTransformation(g);
+}
 //glm::vec3 World::getRelativeVelocities(Model& m1, Model& m2, glm::vec3 & atPoint, glm::vec3 & normal) {
 //	return 
 //}
+
+void World::setupExplosions() {
+	for (int i = 0; i < 30; i++) {
+		Model* t = new Model("Explosion.object", 30, glm::vec3(0,90,0), 3);
+		explosionModels.push_back(Explosion(t, &cam));
+	}
+}
 
 
 
