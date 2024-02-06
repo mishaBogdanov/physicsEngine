@@ -44,38 +44,50 @@ struct Friction {
 
 class Model
 {
-private:
+protected:
+
+	//list of meshes that need to be drawn
 	std::vector<Mesh> mesh;
-	//glm::vec3 pos;
+
+	// the main translation, and inverse translation matricies
 	glm::mat4 translation;
 	glm::mat4 inverseTranslation;
 
+	// the inertia and inverse inertia tensors. used for collisions handling.
 	glm::mat3 inertiaTensor;
 	glm::mat3 inverseInertiaTensor;
 
 
-
+	// used for controls and friction. should be changed to be a local variable in the car and heli classes
 	glm::vec3 facing;
-	double currentMouseY;
-	double currentMouseX;
 	glm::vec3 localY;
 	glm::vec3 localZ;
 	glm::vec3 localX;
 
+	// velocity, and v after force. different because of collision handling. 
+	// sometimes you don't want to add force if an object is resting.
 	glm::vec3 velocity;
 	glm::vec3 vDueToForce = glm::vec3(0,0,0);
 
+	// angular velocity. is updated every frame by the right hand rule, and the magnitude of the vector.
 	glm::vec3 angularVelocityDirection;
-	double angularVelocity;
+
+
+	// !!! to remove shaders.
 	std::vector<ShaderClass> shaders;
+
+	// is true if an object can be moved, is false if it can't
 	bool movable;
+
+	// !!! to remove and put into another class.
 	bool currentlyDriving = false;
 	bool currentlyFlying = false;
 
-
+	// !!! to remove and put into it's own class
 	float steeringRate = 20.0f;
 	float wantedSteeringPos = 0;
 	float currentSteeringPosition = 0;
+
 
 	float verticalSteeringRate = 20.0f;
 	float wantedVerticalSteeringPos = 0;
@@ -85,40 +97,47 @@ private:
 	float wantedRollSteeringPos = 0;
 	float currentRollSteeringPosition = 0;
 
-	//std::vector<float> wallsDistance;
 
-
-	//std::vector<glm::vec3> corners;
-	//std::vector<glm::vec3> originalCorners;
+	// used for physics.
 	glm::vec3 cm;
 	glm::vec3 originalCm;
 	
-	//std::vector<glm::vec3> hitboxVectors;
-
+	// list of asociated hitboxes.
 	std::vector<Hitbox> hitboxes;
 
-
+	// list of impulses that add up and get added
 	std::vector<Impulse> impulses;
+
+	// list of frictions
 	std::vector<Friction> frictions;
 	bool frictionShouldApply = true;
-	//float maxDistFromCm;
+	
+	// is used to calculate the inertia tensors
 	std::vector<float> distToCenter;
+
+	// the list of forces acting on the object
 	std::vector<glm::vec3> forces;
 
-
+	// a couple physics properties
 	float bounceFactor;
 	float mass;
 	float frictionFactor;
 
+	// the size of the object
 	float gScale;
+
+	// !!!
 	std::string type;
 
+	// !!!
 	float bladeRotationAngle = 0;
 	float bladeRotationRate = 700;
 
 	std::vector<Model*> debugger;
 
 	void setupModel(float mass);
+
+	// !!!
 	void setupCybertruck(float scale);
 	bool load(std::string opening, float scale, bool customLocation, glm::vec3 newLocation, bool addHitbox);
 	bool loadHitbox(std::string opening, float scale,  glm::vec3 newLocation);
@@ -137,17 +156,14 @@ public:
 	Model(std::string filepath, float scale, glm::vec3 location, int hitbox); // 1 is normal hitbox, 2 is detailed hitbox, 3 is no hitbox
 	Model(float length, float gheight, float gz, float gx);
 
-	
-	//Model(std::string filepath, glm::vec3 location)
 
 
-	void Draw(ShaderClass& shader, ShaderClass& shader2, Camera cam);
-	void Draw(Camera &cam);
+	virtual void Draw(Camera &cam);
 	glm::mat4 getTransformation();
 	void setTransformation(glm::mat4 gTransfomation);
 
 
-	void update(float deltaT);
+	virtual void update(float deltaT);
 
 	void setVelocity(glm::vec3 &givenV);
 	void setAngularVelocity(glm::vec3& givenAV);
@@ -180,7 +196,7 @@ public:
 	void changeIsMovable(bool value);
 
 	void addImpulse(Impulse imp);
-	void dealWithImpulses();
+	virtual void dealWithImpulses();
 	float getBounceFactor();
 	float getFrictionFactor();
 	glm::vec3* getAngularVelocity();
@@ -198,21 +214,22 @@ public:
 	void addForce(glm::vec3 force);
 	glm::vec3 getForces();
 	
+	// !!!
 	void setCurrentlyDriving(bool given);
 	bool getCurrentlyDriving();
 	void setCurrentlyFlying(bool given);
 	bool getCurrentlyFlying();
 
-	void setWantedRotation(float wanted);
-	void setWantedVerticalRotation(float wanted);
-	void setWantedRollRotation(float wanted);
-	void pitchRotate(float degrees, float deltaT);
-	void driveRotateX(float degrees, float deltaT);
-	void driveRollX(float degrees, float deltaT);
+	virtual void setWantedRotation(float wanted);
+	virtual void setWantedVerticalRotation(float wanted);
+	virtual void setWantedRollRotation(float wanted);
+	virtual void pitchRotate(float degrees, float deltaT);
+	virtual void driveRotateX(float degrees, float deltaT);
+	virtual void driveRollX(float degrees, float deltaT);
 
 
 	void addFrictionForce(Friction gImp);
-	void dealWithFrictionForce();
+	virtual void dealWithFrictionForce();
 	void upadateFacingdirection(double newMouseX, double newMouseY);
 	bool isMoving();
 	glm::vec3* getZ();

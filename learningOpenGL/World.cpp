@@ -269,8 +269,6 @@ void World::processInput() {
 
 		}
 		cam.setVehichleCamera(*drivable->getRawTransformation(), *drivable->getCm(), window);
-
-		//(window, (*(*drivable).getCm()) - (*drivable).getFacing() * 50.0f + glm::vec3(0, 30, 0), (*(*drivable).getCm()));
 	}
 	
 }
@@ -952,3 +950,7 @@ void World::setupExplosions() {
 
 
 
+
+
+
+//glfwSetWindowShouldClose(window, true);

@@ -20,7 +20,6 @@ void Model::setupModel(float gmass) {
 	inverseTranslation = glm::mat4(1);
 	velocity = glm::vec3(0, 0, 0);
 	angularVelocityDirection = glm::vec3(0, 0, 0);
-	angularVelocity = 0;
 	facing = glm::vec3(0, 0, 1);
 	ShaderClass shaderProgram("default.vert", "default.geom", "default.frag");
 	ShaderClass shaderProgram2("default.vert", "outline.geom", "outline.frag");
@@ -72,7 +71,6 @@ void Model::setupHitbox() {
 
 	velocity = glm::vec3(0, 0, 0);
 	angularVelocityDirection = glm::vec3(0, 0, 0);
-	angularVelocity = 0;
 	facing = glm::vec3(0, 0, 1);
 
 	movable = false;
@@ -153,12 +151,7 @@ Model::Model(std::string location, float scale, glm::vec3 physLocation, int hitb
 
 
 
-void Model::Draw(ShaderClass& shader, ShaderClass& shader2, Camera cam) {
-	for (int i = 0; i < mesh.size(); i++) {
-		mesh[i].Draw(shader, cam);
-		mesh[i].Draw(shader2, cam);
-	}
-}
+
 
 glm::mat4 Model::getTransformation() {
 	return glm::translate(glm::mat4(1), cm) * translation * glm::translate(glm::mat4(1), -originalCm);
@@ -988,7 +981,6 @@ void Model::loadAppache(float gmass) {
 	inverseTranslation = glm::mat4(1);
 	velocity = glm::vec3(0, 0, 0);
 	angularVelocityDirection = glm::vec3(0, 0, 0);
-	angularVelocity = 0;
 	facing = glm::vec3(0, 0, 1);
 	ShaderClass shaderProgram("default.vert", "default.geom", "default.frag");
 	ShaderClass shaderProgram2("default.vert", "outline.geom", "outline.frag");

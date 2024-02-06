@@ -25,57 +25,24 @@
     <Filter Include="Worlds">
       <UniqueIdentifier>{94d5d18e-0595-4734-924f-af704e5d0d8e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\openGL">
+      <UniqueIdentifier>{8fdff60e-77ea-490b-b11c-650039b40934}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\modelStuff">
+      <UniqueIdentifier>{016121f8-55ca-4efa-bfb3-3fa13c2bc8e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Controls">
+      <UniqueIdentifier>{92077276-9085-4316-9ddd-0e99727bd10d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="learningOpenGL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ExperimentingWithShaders.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ShaderClass.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VBO.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EBO.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VAO.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="stb.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureClass.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="floor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="World.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SubSpace.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionBox.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MyMath.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Hitbox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="vectorPrintingClass.cpp">
@@ -102,26 +69,59 @@
     <ClCompile Include="DominoesWorld.cpp">
       <Filter>Worlds</Filter>
     </ClCompile>
-    <ClCompile Include="AIdrive.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Users\slomi\OneDrive\Desktop\glad.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Helicopter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Explosion.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ApacheWorld.cpp">
       <Filter>Worlds</Filter>
     </ClCompile>
+    <ClCompile Include="VAO.cpp">
+      <Filter>Source Files\openGL</Filter>
+    </ClCompile>
+    <ClCompile Include="VBO.cpp">
+      <Filter>Source Files\openGL</Filter>
+    </ClCompile>
+    <ClCompile Include="EBO.cpp">
+      <Filter>Source Files\openGL</Filter>
+    </ClCompile>
+    <ClCompile Include="stb.cpp">
+      <Filter>Source Files\openGL</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderClass.cpp">
+      <Filter>Source Files\openGL</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureClass.cpp">
+      <Filter>Source Files\openGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Users\slomi\OneDrive\Desktop\glad.c">
+      <Filter>Source Files\openGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Source Files\modelStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files\modelStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="floor.cpp">
+      <Filter>Source Files\modelStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="Explosion.cpp">
+      <Filter>Source Files\modelStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="Hitbox.cpp">
+      <Filter>Source Files\modelStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="Helicopter.cpp">
+      <Filter>Source Files\modelStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="Drivable.cpp">
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdatedHelicopter.cpp">
+      <Filter>Source Files\modelStuff</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ExperimentingWithShaders.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ShaderClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -150,9 +150,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="World.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SubSpace.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CollisionBox.h">
@@ -188,9 +185,6 @@
     <ClInclude Include="DominoesWorld.h">
       <Filter>Worlds</Filter>
     </ClInclude>
-    <ClInclude Include="AIdrive.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Helicopter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -199,6 +193,12 @@
     </ClInclude>
     <ClInclude Include="ApacheWorld.h">
       <Filter>Worlds</Filter>
+    </ClInclude>
+    <ClInclude Include="Drivable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdatedHelicopter.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

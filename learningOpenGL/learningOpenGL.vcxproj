@@ -134,15 +134,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Users\slomi\OneDrive\Desktop\glad.c" />
-    <ClCompile Include="AIdrive.cpp" />
+    <ClCompile Include="Drivable.cpp" />
     <ClCompile Include="Helicopter.cpp" />
     <ClCompile Include="ApacheWorld.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="CollisionBox.cpp" />
     <ClCompile Include="DominoesWorld.cpp" />
     <ClCompile Include="Dust2Map.cpp" />
     <ClCompile Include="EBO.cpp" />
-    <ClCompile Include="ExperimentingWithShaders.cpp" />
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="floatingCollisions.cpp" />
     <ClCompile Include="floor.cpp" />
@@ -156,16 +154,16 @@
     <ClCompile Include="ShaderClass.cpp" />
     <ClCompile Include="Simple2BoxCollision.cpp" />
     <ClCompile Include="stb.cpp" />
-    <ClCompile Include="SubSpace.cpp" />
     <ClCompile Include="TextureClass.cpp" />
     <ClCompile Include="TowerOfBoxes.cpp" />
+    <ClCompile Include="UpdatedHelicopter.cpp" />
     <ClCompile Include="VAO.cpp" />
     <ClCompile Include="VBO.cpp" />
     <ClCompile Include="vectorPrintingClass.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AIdrive.h" />
+    <ClInclude Include="Drivable.h" />
     <ClInclude Include="Helicopter.h" />
     <ClInclude Include="ApacheWorld.h" />
     <ClInclude Include="Camera.h" />
@@ -173,7 +171,6 @@
     <ClInclude Include="DominoesWorld.h" />
     <ClInclude Include="Dust2Map.h" />
     <ClInclude Include="EBO.h" />
-    <ClInclude Include="ExperimentingWithShaders.h" />
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="floatingCollisions.h" />
     <ClInclude Include="floor.h" />
@@ -185,9 +182,9 @@
     <ClInclude Include="RoomWorld.h" />
     <ClInclude Include="ShaderClass.h" />
     <ClInclude Include="Simple2BoxCollision.h" />
-    <ClInclude Include="SubSpace.h" />
     <ClInclude Include="TextureClass.h" />
     <ClInclude Include="TowerOfBoxes.h" />
+    <ClInclude Include="UpdatedHelicopter.h" />
     <ClInclude Include="VAO.h" />
     <ClInclude Include="VBO.h" />
     <ClInclude Include="vectorPrintingClass.h" />
