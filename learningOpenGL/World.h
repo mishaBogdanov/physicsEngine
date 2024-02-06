@@ -22,7 +22,7 @@
 #include "floor.h"
 #include <algorithm>
 #include <set>
-#include "Apache.h"
+#include "Helicopter.h"
 #include "Explosion.h"
 //#include "Hitbox.h"
 //class Hitbox;
@@ -39,39 +39,41 @@ private:
 	float sizeY;
 	float sizeZ;
 	int divisions;
-	
 
-	double physT;
-	double physDeltaT;
 	double deltaT;
 	float time;
-	std::vector<Model> models = std::vector<Model>();
+	std::vector<Model*> models = std::vector<Model*>();
 	std::vector<Floor> floors;
-	std::vector<Apache> helicopters = std::vector<Apache>();
+	std::vector<Helicopter> helicopters = std::vector<Helicopter>();
+	std::vector<Explosion> explosionModels;
+	
+	std::vector<ShaderClass> normalShaders;
+	std::vector<Model*> standardRendering;
+	
+
 	GLFWwindow* window;
 
 	std::vector<IntersectionModel> currentCollisions;
 	std::vector<int > explosions;
 
 
-	static const unsigned int SCR_WIDTH = 200;
-	static const unsigned int SCR_HEIGHT = 100;
-	const double xScale = 1.8;
+	static const unsigned int SCR_WIDTH = 1500;
+	static const unsigned int SCR_HEIGHT = 800;
+	const double xScale = 1;
 	bool isConsole = true;
 	HANDLE hConsole;
 	DWORD dwBytesWritten;
-	wchar_t* screen = new wchar_t[SCR_WIDTH * SCR_HEIGHT + 1];
-	float pixels[SCR_WIDTH * SCR_HEIGHT * 3] = { 0 };
+	//wchar_t* screen = new wchar_t[SCR_WIDTH * SCR_HEIGHT + 1];
+	//float pixels[SCR_WIDTH * SCR_HEIGHT * 3] = { 0 };
 
 	Camera cam = Camera(SCR_WIDTH, SCR_HEIGHT * xScale, 1, glm::vec3(0.0f, 20.0f, 20.0f));
 
-	std::vector<Explosion> explosionModels;
 
 	bool pushed = false;
 	bool isDriving = false;
 	bool isFlying = false;
 	Model* drivable;
-	Apache* helicopter;
+	Helicopter* helicopter;
 	glm::vec3 gravityAcceleration = glm::vec3(0,-98, 0);
 	float dragConstant = 1.03;
 	bool gravityEnabled = false;
@@ -83,12 +85,13 @@ private:
 
 	void detectCollisions();
 	void dealWithCollisions();
+
+
 	void dealWithExplosions();
 	void applyExplosionForce(Model * missile, Model * object);
 	void eraseExplosions();
 
-	//void explode(Model* given);
-	//void eraseExplosions();
+
 	void dealWithFirstMovable(int i);
 	void dealWithSecondMovable(int i);
 	void generateContacts(Model& m1, Model& m2, std::vector<Contact>& given);
@@ -114,6 +117,7 @@ public:
 
 
 	void addFloor(int gNum, float gSpacing, float gHeight, float gz, float gx);
+	void addModel(Model* gModel);
 	void addModel(Model& given);
 	void addModel(std::string given);
 	void addModel(std::string given, glm::vec3 location);

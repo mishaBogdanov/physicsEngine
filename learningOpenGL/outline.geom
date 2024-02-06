@@ -8,6 +8,7 @@ in DATA
 	mat4 cameraMatrix;
 	mat4 given_translation_matrix;
 	mat4 posMatrix;
+	vec3 lightDirection;
 
 } data_in[];
 

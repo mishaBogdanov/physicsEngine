@@ -14,7 +14,7 @@ private:
 	int width;
 	int height;
 	float speed;
-	float sensitivity = 100.0f;
+	float sensitivity = 200.0f;
 	float xScale;
 	bool firstClick = true;
 	bool isInGame = true;

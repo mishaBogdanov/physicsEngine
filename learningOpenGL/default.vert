@@ -5,6 +5,7 @@ layout (location = 0) in vec3 aPos;
 uniform mat4 camMatrix;
 uniform mat4 translationMatrix;
 uniform mat4 positionMatrix;
+uniform vec3 lightDirection;
 
 
 
@@ -13,6 +14,7 @@ out DATA
 	mat4 cameraMatrix;
 	mat4 given_translation_matrix;
 	mat4 posMatrix;
+	vec3 lightDirection;
 } data_out;
 
 
@@ -23,4 +25,5 @@ void main()
 	data_out.cameraMatrix = camMatrix;
 	data_out.given_translation_matrix = translationMatrix;
 	data_out.posMatrix = positionMatrix;
+	data_out.lightDirection = lightDirection;
 }

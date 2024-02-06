@@ -113,7 +113,7 @@ void Camera::setView(GLFWwindow * window, glm::vec3 pos, glm::vec3 lookTo) {
 }
 
 void Camera::resetMousePosition(GLFWwindow * window) {
-	glfwSetCursorPos(window, (width / 2), (height / 4));
+	//glfwSetCursorPos(window, (width / 2), (height / 4));
 }
 
 void Camera::setVehichleCamera(glm::mat4& givenVehichleRot, glm::vec3& cm, GLFWwindow* window) {

@@ -42,10 +42,19 @@ ApacheWorld::ApacheWorld() {
 	test.addModel("BasicCube.object", 12, glm::vec3(130, 180, -130), true, true);
 
 
+	test.addModel("Tank.object", 10, glm::vec3(40, 180, -50), true, true);
+	test.addModel("Tank.object", 10, glm::vec3(110, 180, -30), true, true);
+	test.addModel("Tank.object", 10, glm::vec3(-50, 180, -50), true, true);
+	test.addModel("TeslaTruck.object", 10, glm::vec3(-110, 180, -50), true, true);
+	test.addModel("House.object", 10, glm::vec3(0, 180, 90), true, true);
+
+
+
 
 	glm::vec3 up = glm::vec3(0, 1, 0);
 	test.rotateModel(3, 90, up);
 	test.rotateModel(5, 90, up);
+	test.rotateModel(26, 90, up);
 
 	//test.addModel("WallObject.object", 10, glm::vec3(0, 150, 20), true, true);
 	//test.addModel("")

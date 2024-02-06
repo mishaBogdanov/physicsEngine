@@ -135,7 +135,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Users\slomi\OneDrive\Desktop\glad.c" />
     <ClCompile Include="AIdrive.cpp" />
-    <ClCompile Include="Apache.cpp" />
+    <ClCompile Include="Helicopter.cpp" />
     <ClCompile Include="ApacheWorld.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CollisionBox.cpp" />
@@ -146,7 +146,6 @@
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="floatingCollisions.cpp" />
     <ClCompile Include="floor.cpp" />
-    <ClCompile Include="HeliMissile.cpp" />
     <ClCompile Include="Hitbox.cpp" />
     <ClCompile Include="learningOpenGL.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -167,7 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIdrive.h" />
-    <ClInclude Include="Apache.h" />
+    <ClInclude Include="Helicopter.h" />
     <ClInclude Include="ApacheWorld.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CollisionBox.h" />
@@ -178,7 +177,6 @@
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="floatingCollisions.h" />
     <ClInclude Include="floor.h" />
-    <ClInclude Include="HeliMissile.h" />
     <ClInclude Include="Hitbox.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
@@ -214,11 +212,13 @@
     <None Include="floorFill.vert" />
     <None Include="floorOutline.geom" />
     <None Include="floor.vert" />
+    <None Include="House.object" />
     <None Include="Missile.frag" />
     <None Include="Missile.object" />
     <None Include="Missile.vert" />
     <None Include="outline.frag" />
     <None Include="outline.geom" />
+    <None Include="Tank.object" />
     <None Include="TeslaTruck.object" />
     <None Include="TreeArea.object" />
   </ItemGroup>

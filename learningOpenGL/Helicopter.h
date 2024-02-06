@@ -8,7 +8,7 @@
 
 class World;
 
-class Apache
+class Helicopter
 {
 private:
 	glm::vec3 x = glm::vec3(1,0,0);
@@ -21,7 +21,7 @@ private:
 	glm::vec3 propellerForce = glm::vec3(0,0,0);
 	float massModdel;
 public:
-	Apache(float mass, Model * gModdel, World * givenWorld);
+	Helicopter(float mass, Model * gModdel, World * givenWorld);
 	void shoot();
 	void processInput(float dt);
 	void update(float dt);

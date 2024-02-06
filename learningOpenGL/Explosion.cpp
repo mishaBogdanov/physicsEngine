@@ -9,7 +9,6 @@ void Explosion::update(float dt) {
 		scale += scaleRate * dt;
 		gModel -> setScale(scale);
 		gModel->update(1);
-		std::cout << (*gModel->getRawTransformation())[0][0] << "\n";
 
 		if (scale >= maxScale) {
 			active = false;

@@ -24,16 +24,11 @@ ShaderClass::ShaderClass(const char* vertexFile,const char* fragmentFile) {
     const char* fragmentSource = fragmentCode.c_str();
 
     unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
+
     glShaderSource(vertexShader, 1, &vertexSource, NULL);
+
     glCompileShader(vertexShader);
 
-
-
-
-
-    //check shader compilation
-
-    // check for shader compile errors
     int success;
     char infoLog[512];
     glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
@@ -85,19 +80,12 @@ ShaderClass::ShaderClass(const char* vertexFile, const char * geometryFile, cons
     const char* vertexSource = vertexCode.c_str();
     const char* fragmentSource = fragmentCode.c_str();
     const char* geometrySource = geometryCode.c_str();
-
+    
 
     unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexSource, NULL);
     glCompileShader(vertexShader);
 
-
-
-
-
-    //check shader compilation
-
-    // check for shader compile errors
     int success;
     char infoLog[512];
     glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
@@ -106,10 +94,6 @@ ShaderClass::ShaderClass(const char* vertexFile, const char * geometryFile, cons
         glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
         std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
     }
-    // ====================================================================================
-    
-
-
 
 
     unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);

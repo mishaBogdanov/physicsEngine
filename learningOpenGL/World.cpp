@@ -7,7 +7,7 @@
 #include "Hitbox.h"
 #include "vectorPrintingClass.h"
 #include <map>
-#include "Apache.h"
+#include "Helicopter.h"
 
 
 
@@ -45,7 +45,7 @@ void World::setupGLFW() {
 	//	glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 	//}
 
-	glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+	//glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 	window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
 	if (window == NULL)
 	{
@@ -79,24 +79,30 @@ void World::addFloor(int gNum, float gSpacing, float gHeight, float gz, float gx
 }
 
 void World::addModel(std::string given) {
-	models.push_back(Model(given));
+	Model* setModel = new Model(given);
+	addModel(setModel);
+}
+
+void World::addModel(Model* m) {
+	models.push_back(m);
 }
 
 void World::addModel(std::string given, float scale) {
-	models.push_back(Model(given, scale));
+	Model* setModel = new Model(given, scale);
+	addModel(setModel);
 }
 
 void World::addHitbox(std::string given, float scale, glm::vec3 location) {
-	Model m = Model(given, scale, location, 2);
-	models.push_back(m);
+	Model * m = new Model(given, scale, location, 2);
+	addModel(m);
 }
 
 void World::addVehichle(std::string given, float scale, glm::vec3 location) {
 	if (given == "Apache.object") {
-		Model m = Model(given, scale, location, 1);
-		m.addForce(gravityAcceleration * m.getMass());
-		models.push_back(m);
-		Apache apache = Apache(m.getMass(), &models[models.size() - 1], this);
+		Model* m = new Model(given, scale, location, 1);
+		m->addForce(gravityAcceleration * m->getMass());
+		addModel(m);
+		Helicopter apache = Helicopter(m->getMass(), m, this);
 		helicopters.push_back(apache);
 	}
 }
@@ -104,92 +110,86 @@ void World::addVehichle(std::string given, float scale, glm::vec3 location) {
 
 void World::addModel(std::string given, float scale, glm::vec3 pos, bool hitbox, bool movable) {
 
-	Model m = Model(given, scale, pos, hitbox ? 1 : 3);
+	Model *m = new Model(given, scale, pos, hitbox ? 1 : 3);
 
 	if (movable && gravityEnabled) {
-		m.addForce(gravityAcceleration * m.getMass());
+		m->addForce(gravityAcceleration * m->getMass());
 	}
 	else if (!movable) {
-		m.changeIsMovable(false);
+		m->changeIsMovable(false);
 	}
-	models.push_back(m);
+	addModel(m);
 }
 
 void World::setVelocity(int location, glm::vec3 v) {
-	models[location].setVelocity(v);
+	models[location]->setVelocity(v);
 }
 
 void World::setAngularVelocity(int location, glm::vec3 v) {
-	models[location].setAngularVelocity(v);
+	models[location]->setAngularVelocity(v);
 }
 
 void World::setMass(int index, float mass) {
-	models[index].setMass(mass);
+	models[index]->setMass(mass);
 }
 
 
 
 
 void World::rotateModel(int location, float angle, glm::vec3& norm) {
-	models[location].rotate(angle, norm);
+	models[location]->rotate(angle, norm);
 }
 
 
 
-void World::screenToPixel() {
-
-	if (isConsole) {
-
-		glReadPixels(0, 0, SCR_WIDTH, SCR_HEIGHT, GL_RGB, GL_FLOAT, pixels);
-
-		for (int i = 0; i < SCR_WIDTH * SCR_HEIGHT * 3; i += 3) {
-
-			int pos = 0;
-			if (i / 3 / SCR_WIDTH == 0) {
-				pos = (SCR_HEIGHT - 1) * SCR_WIDTH + i / 3;
-				//std::cout << i / 3;
-			}
-			else {
-				pos = (SCR_HEIGHT - (i / 3 / SCR_WIDTH) - 1) * SCR_WIDTH + ((i / 3) % SCR_WIDTH);
-				//std::cout << pos;
-			}
-
-
-			float colorValue = pixels[i] + pixels[i + 1] + pixels[i + 2];
-
-			//std::cout << colorValue << std::endl;
-
-			if (colorValue < 0.1) {
-				screen[pos] = ' ';
-			}
-			else if (colorValue < 0.6) {
-				screen[pos] = ',';
-			}
-			else if (colorValue < 1.2) {
-				screen[pos] = ';';
-			}
-			else if (colorValue < 1.8) {
-				screen[pos] = 'i';
-			}
-			else if (colorValue < 2.2) {
-				screen[pos] = '0';
-			}
-			else if (colorValue < 2.6) {
-				screen[pos] = 0x2592;
-			}
-			else if (colorValue < 8) {
-				screen[pos] = 0x2593;
-			}
-			else {
-				screen[pos] = 0x2588;
-			}
-
-
-		}
-		screen[200 * 100] = '\0';
-		WriteConsoleOutputCharacter(hConsole, screen, 200 * 100, { 0,0 }, &dwBytesWritten);
-	}
-}
+//void World::screenToPixel() {
+//
+//	if (isConsole) {
+//
+//		glReadPixels(0, 0, SCR_WIDTH, SCR_HEIGHT, GL_RGB, GL_FLOAT, pixels);
+//
+//		for (int i = 0; i < SCR_WIDTH * SCR_HEIGHT * 3; i += 3) {
+//
+//			int pos = 0;
+//			if (i / 3 / SCR_WIDTH == 0) {
+//				pos = (SCR_HEIGHT - 1) * SCR_WIDTH + i / 3;
+//				//std::cout << i / 3;
+//			}
+//			else {
+//				pos = (SCR_HEIGHT - (i / 3 / SCR_WIDTH) - 1) * SCR_WIDTH + ((i / 3) % SCR_WIDTH);
+//				//std::cout << pos;
+//			}
+//
+//
+//			float colorValue = pixels[i] + pixels[i + 1] + pixels[i + 2];
+//
+//			//std::cout << colorValue << std::endl;
+//
+//			if (colorValue < 0.4) {
+//				screen[pos] = ' ';
+//			}
+//			else if (colorValue < 0.8) {
+//				screen[pos] = ',';
+//			}
+//			else if (colorValue < 1.6) {
+//				screen[pos] = ';';
+//			}
+//			else if (colorValue < 1.2) {
+//				screen[pos] = 'i';
+//			}
+//			else if (colorValue < 2.6) {
+//				screen[pos] = '0';
+//			}
+//			else{
+//				screen[pos] = '8';
+//			}
+//
+//
+//		}
+//		screen[300 * 120] = '\0';
+//		WriteConsoleOutputCharacter(hConsole, screen, 300 * 120, { 0,0 }, &dwBytesWritten);
+//	}
+//}
 
 void World::clearScreen() {
 	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
@@ -221,7 +221,7 @@ void World::processInput() {
 		}
 		else {
 
-			drivable = &models[2];
+			drivable = models[2];
 			isDriving = true;
 			drivable->setCurrentlyDriving(true);
 
@@ -276,8 +276,10 @@ void World::processInput() {
 }
 
 void World::renderModels() {
+	//glLineWidth(2);
+	//glPolygonMode()
 	for (int i = 0; i < models.size(); i++) {
-		models[i].Draw(cam);
+		models[i]->Draw(cam);
 	}
 
 	for (int i = 0; i < floors.size(); i++) {
@@ -295,7 +297,7 @@ void World::renderModels() {
 
 void World::update() {
 	for (int i = 0; i < models.size(); i++) {
-		models[i].update(deltaT);
+		models[i]->update(deltaT);
 	}
 	for (int i = 0; i < helicopters.size(); i++) {
 		helicopters[i].update(deltaT);
@@ -335,7 +337,7 @@ void World::comb(int N, int K, std::vector<int>& returning) {
 
 
 void World::changeIsMovable(int pos, bool newValue) {
-	models[pos].changeIsMovable(newValue);
+	models[pos]->changeIsMovable(newValue);
 }
 
 
@@ -373,11 +375,11 @@ void World::detectCollisions() {
 		glm::vec3 normal;
 		float intersectBy;
 		IntersectionModel model;
-		bool colliding = checkHitboxes(models[modelsToCheck[i]], models[modelsToCheck[i + 1]], model);
-		if (colliding && models[modelsToCheck[i]].getType() == "M") {
+		bool colliding = checkHitboxes(*models[modelsToCheck[i]], *models[modelsToCheck[i + 1]], model);
+		if (colliding && models[modelsToCheck[i]]->getType() == "M") {
 			explosions.push_back(modelsToCheck[i]);
 		}
-		else if (colliding && models[modelsToCheck[i + 1]].getType() == "M") {
+		else if (colliding && models[modelsToCheck[i + 1]]->getType() == "M") {
 			explosions.push_back(modelsToCheck[i+1]);
 		}
 		else if (colliding) {
@@ -401,7 +403,7 @@ void World::startRenderLoop() {
 
 
 
-		cam.setMatrix(90.0f, 20.0f, 2000.0f);
+		cam.setMatrix(90.0f, 5.0f, 2000.0f);
 
 		update();
 		detectCollisions();
@@ -413,7 +415,7 @@ void World::startRenderLoop() {
 
 		renderModels();
 
-		screenToPixel();
+		//screenToPixel();
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
@@ -430,8 +432,8 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 void World::applyDrag(float dt) {
 	for (int i = 0; i < models.size(); i++) {
-		if (models[i].isMovable()) {
-			models[i].scaleVelocity(pow(dragConstant, -dt));
+		if (models[i]->isMovable()) {
+			models[i]->scaleVelocity(pow(dragConstant, -dt));
 		}
 	}
 }
@@ -528,7 +530,7 @@ bool World::checkHitboxesColliding(Hitbox& hitbox1, Hitbox& hitbox2, float& curi
 
 void World::dealWithExplosions() {
 	for (int i = 0; i < explosions.size(); i++) {
-		Model* rocket = &models[explosions[i]];
+		Model* rocket = models[explosions[i]];
 		for (int k = 0; k < explosionModels.size(); k++) {
 			if (!explosionModels[k].getEnabled()) {
 				explosionModels[k].enable(*rocket->getCm());
@@ -536,11 +538,10 @@ void World::dealWithExplosions() {
 			}
 		}
 		for (int k = 0; k < models.size(); k++) {
-			if (models[k].getType() != "M") {
-				applyExplosionForce(rocket, &models[k]);
+			if (models[k]->getType() != "M") {
+				applyExplosionForce(rocket, models[k]);
 			}
 		}
-		std::cout << explosionModels.size();
 
 		
 	}
@@ -548,6 +549,7 @@ void World::dealWithExplosions() {
 
 void World::eraseExplosions() {
 	for (int i = 0; i < explosions.size(); i++) {
+		delete models[explosions[i]];
 		models.erase(models.begin() + explosions[i]);
 
 		for (int k = i+1; k < explosions.size(); k++) {
@@ -568,7 +570,7 @@ void World::eraseExplosions() {
 void World::applyExplosionForce(Model* missile, Model* object) {
 	if (object->isMovable() && object->getType() != "A") {
 		glm::vec3 impulse = *object->getCm() - *missile->getCm();
-		impulse = glm::normalize(impulse) / MyMath::getVectorMagnitudeSquared(impulse) * 10000000000.0f;
+		impulse = glm::normalize(impulse) / MyMath::getVectorMagnitudeSquared(impulse) * 1000000000.0f;
 		Impulse imp;
 		imp.direction = impulse;
 		imp.position = *object->getCm();
@@ -901,13 +903,13 @@ void World::addImpulses(Model& model1, Model& model2, std::vector<Contact>& vec)
 
 void World::applyDealWithImpulses() {
 	for (int i = 0; i < models.size(); i++) {
-		models[i].dealWithImpulses();
-		models[i].dealWithFrictionForce();
+		models[i]->dealWithImpulses();
+		models[i]->dealWithFrictionForce();
 	}
 }
 
 Model* World::getModel(int i) {
-	return &models[i];
+	return models[i];
 }
 
 glm::vec3 World::calculateTVec(Model& m1, Model& m2, glm::vec3& pos, glm::vec3& normal) {
@@ -934,7 +936,7 @@ int World::getModelsSize() {
 }
 
 void World::setTransformation(int i, glm::mat4& g) {
-	models[i].setTransformation(g);
+	models[i]->setTransformation(g);
 }
 //glm::vec3 World::getRelativeVelocities(Model& m1, Model& m2, glm::vec3 & atPoint, glm::vec3 & normal) {
 //	return 

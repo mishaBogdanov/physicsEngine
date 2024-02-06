@@ -108,10 +108,7 @@
     <ClCompile Include="..\..\..\..\Users\slomi\OneDrive\Desktop\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Apache.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HeliMissile.cpp">
+    <ClCompile Include="Helicopter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Explosion.cpp">
@@ -194,10 +191,7 @@
     <ClInclude Include="AIdrive.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Apache.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HeliMissile.h">
+    <ClInclude Include="Helicopter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Explosion.h">
@@ -277,6 +271,12 @@
       <Filter>Resource Files\shaders</Filter>
     </None>
     <None Include="TreeArea.object">
+      <Filter>Resource Files\models</Filter>
+    </None>
+    <None Include="Tank.object">
+      <Filter>Resource Files\models</Filter>
+    </None>
+    <None Include="House.object">
       <Filter>Resource Files\models</Filter>
     </None>
   </ItemGroup>

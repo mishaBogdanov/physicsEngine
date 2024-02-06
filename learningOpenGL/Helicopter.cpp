@@ -1,14 +1,14 @@
-#include "Apache.h"
+#include "Helicopter.h"
 #include "World.h"
 #include "MyMath.h"
 
-Apache::Apache(float mass, Model* givenModdel, World * World) {
+Helicopter::Helicopter(float mass, Model* givenModdel, World * World) {
 	gModel = givenModdel;
 	massModdel = mass;
 	gWorld = World;
 }
 
-void Apache::processInput(float dt) {
+void Helicopter::processInput(float dt) {
 	glm::vec3 fDirection= *gModel->getRawTransformation() * glm::vec4(0, 1, 0, 0);
 	if (GetKeyState(VK_SPACE) & 0x8000) {
 		propellerForce += fDirection * massModdel * 0.2f * dt;
@@ -55,7 +55,7 @@ void Apache::processInput(float dt) {
 	}
 }
 
-void Apache::update(float dt) {
+void Helicopter::update(float dt) {
 	//processInput(dt);
 	Impulse imp;
 	imp.position = *gModel->getCm();
@@ -64,11 +64,11 @@ void Apache::update(float dt) {
 	gModel->addImpulse(imp);
 }
 
-Model* Apache::getModdel() {
+Model* Helicopter::getModdel() {
 	return gModel;
 }
 
-void Apache::shoot() {
+void Helicopter::shoot() {
 	if (glfwGetTime() - lastShotTime > 0.3) {
 		shootingRight = !shootingRight;
 		gWorld->addModel("Missile.object", 20,
