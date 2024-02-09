@@ -165,13 +165,12 @@ void Model::setTransformation(glm::mat4 newTransformation) {
 //	return glm::translate(glm::mat4(1), -cm) * 
 //}
 
-void Model::Draw(Camera& cam) {
+void Model::Draw(Camera& cam, std::vector<ShaderClass> & gShaders) {
 	if (type == "A") {
 		mesh[1].Draw(shaders[0], cam);
 		mesh[1].Draw(shaders[1], cam);
 		mesh[0].Draw(shaders[2], cam);
 		mesh[0].Draw(shaders[3], cam);
-
 	}
 
 	else {
@@ -198,52 +197,52 @@ void Model::update(float deltaT) {
 
 	}
 
-	localY = translation * glm::vec4(0, 1, 0, 0);
-	localX = translation * glm::vec4(1, 0, 0, 0);
-	localZ = translation * glm::vec4(0, 0, 1, 0);
+	//localY = translation * glm::vec4(0, 1, 0, 0);
+	//localX = translation * glm::vec4(1, 0, 0, 0);
+	//localZ = translation * glm::vec4(0, 0, 1, 0);
 
-	if (wantedSteeringPos != currentSteeringPosition) {
-		if (currentSteeringPosition > wantedSteeringPos) {
-			currentSteeringPosition = max(currentSteeringPosition - deltaT * steeringRate, wantedSteeringPos);
-		}
-		else {
-			currentSteeringPosition = min(currentSteeringPosition + deltaT * steeringRate, wantedSteeringPos);
-		}
-	}
+	//if (wantedSteeringPos != currentSteeringPosition) {
+	//	if (currentSteeringPosition > wantedSteeringPos) {
+	//		currentSteeringPosition = max(currentSteeringPosition - deltaT * steeringRate, wantedSteeringPos);
+	//	}
+	//	else {
+	//		currentSteeringPosition = min(currentSteeringPosition + deltaT * steeringRate, wantedSteeringPos);
+	//	}
+	//}
 
-	if (wantedVerticalSteeringPos != currentVerticalSteeringPosition) {
-		if (currentVerticalSteeringPosition > wantedVerticalSteeringPos) {
-			currentVerticalSteeringPosition = max(currentVerticalSteeringPosition - deltaT * verticalSteeringRate, wantedVerticalSteeringPos);
-		}
-		else {
-			currentVerticalSteeringPosition = min(currentVerticalSteeringPosition + deltaT * verticalSteeringRate, verticalSteeringRate);
-		}
-	}
+	//if (wantedVerticalSteeringPos != currentVerticalSteeringPosition) {
+	//	if (currentVerticalSteeringPosition > wantedVerticalSteeringPos) {
+	//		currentVerticalSteeringPosition = max(currentVerticalSteeringPosition - deltaT * verticalSteeringRate, wantedVerticalSteeringPos);
+	//	}
+	//	else {
+	//		currentVerticalSteeringPosition = min(currentVerticalSteeringPosition + deltaT * verticalSteeringRate, verticalSteeringRate);
+	//	}
+	//}
 
-	if (wantedRollSteeringPos != currentRollSteeringPosition) {
-		if (currentRollSteeringPosition > wantedRollSteeringPos) {
-			currentRollSteeringPosition = max(currentRollSteeringPosition - deltaT * rollSteeringRate, wantedRollSteeringPos);
-		}
-		else {
-			currentRollSteeringPosition = min(currentRollSteeringPosition + deltaT * rollSteeringRate, rollSteeringRate);
-		}
-	}
+	//if (wantedRollSteeringPos != currentRollSteeringPosition) {
+	//	if (currentRollSteeringPosition > wantedRollSteeringPos) {
+	//		currentRollSteeringPosition = max(currentRollSteeringPosition - deltaT * rollSteeringRate, wantedRollSteeringPos);
+	//	}
+	//	else {
+	//		currentRollSteeringPosition = min(currentRollSteeringPosition + deltaT * rollSteeringRate, rollSteeringRate);
+	//	}
+	//}
 
-	if (currentlyFlying) {
-		velocity = velocity * (float)pow(2, glm::length(velocity) * deltaT * (-0.01f));
-	}
+	//if (currentlyFlying) {
+	//	velocity = velocity * (float)pow(2, glm::length(velocity) * deltaT * (-0.01f));
+	//}
 
-	if (currentVerticalSteeringPosition != 0) {
-		pitchRotate(currentVerticalSteeringPosition, deltaT);
-	}
+	//if (currentVerticalSteeringPosition != 0) {
+	//	pitchRotate(currentVerticalSteeringPosition, deltaT);
+	//}
 
-	if (currentSteeringPosition != 0) {
-		driveRotate(currentSteeringPosition, deltaT);
-	}
+	//if (currentSteeringPosition != 0) {
+	//	driveRotate(currentSteeringPosition, deltaT);
+	//}
 
-	if (currentRollSteeringPosition != 0) {
-		driveRollX(currentRollSteeringPosition, deltaT);
-	}
+	//if (currentRollSteeringPosition != 0) {
+	//	driveRollX(currentRollSteeringPosition, deltaT);
+	//}
 
 	if (MyMath::getVectorMagnitudeSquared(angularVelocityDirection) < 0.0000000001) {
 		angularVelocityDirection = glm::vec3(0);
@@ -272,19 +271,19 @@ void Model::update(float deltaT) {
 	
 
 	if (type == "A") {
-		glm::mat4 bladeRotation = getTransformation()
-			
-			* glm::translate(glm::mat4(1), glm::vec3(0, 0, +0.65) * gScale) *
-			glm::rotate(glm::mat4(1), glm::radians(bladeRotationAngle), glm::vec3(0,1,0)) * glm::translate(glm::mat4(1), glm::vec3(0,0,-0.65) * gScale);
-		bladeRotationAngle += bladeRotationRate * deltaT;
-			shaders[0].Activate();
-			glUniformMatrix4fv(glGetUniformLocation(shaders[0].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(getTransformation()));
-			shaders[1].Activate();
-			glUniformMatrix4fv(glGetUniformLocation(shaders[1].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(getTransformation()));
-			shaders[2].Activate();
-			glUniformMatrix4fv(glGetUniformLocation(shaders[2].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(bladeRotation));
-			shaders[3].Activate();
-			glUniformMatrix4fv(glGetUniformLocation(shaders[3].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(bladeRotation));
+		//glm::mat4 bladeRotation = getTransformation()
+		//	
+		//	* glm::translate(glm::mat4(1), glm::vec3(0, 0, +0.65) * gScale) *
+		//	glm::rotate(glm::mat4(1), glm::radians(bladeRotationAngle), glm::vec3(0,1,0)) * glm::translate(glm::mat4(1), glm::vec3(0,0,-0.65) * gScale);
+		//bladeRotationAngle += bladeRotationRate * deltaT;
+		//	shaders[0].Activate();
+		//	glUniformMatrix4fv(glGetUniformLocation(shaders[0].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(getTransformation()));
+		//	shaders[1].Activate();
+		//	glUniformMatrix4fv(glGetUniformLocation(shaders[1].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(getTransformation()));
+		//	shaders[2].Activate();
+		//	glUniformMatrix4fv(glGetUniformLocation(shaders[2].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(bladeRotation));
+		//	shaders[3].Activate();
+		//	glUniformMatrix4fv(glGetUniformLocation(shaders[3].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(bladeRotation));
 		
 	}else {
 		for (int k = 0; k < shaders.size(); k++) {

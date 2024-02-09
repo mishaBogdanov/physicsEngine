@@ -22,8 +22,17 @@ World::World(float distX, float distY, float distZ, int divs, bool gravity) {
 	models.reserve(200);
 	helicopters.reserve(30);
 	explosionModels.reserve(20);
+
+
 }
 
+
+void World::setupShaders() {
+	ShaderClass shaderProgram("default.vert", "default.geom", "default.frag");
+	ShaderClass shaderProgram2("default.vert", "outline.geom", "outline.frag");
+	shaders.push_back(shaderProgram);
+	shaders.push_back(shaderProgram2);
+}
 
 
 void World::setupGLFW() {
@@ -95,6 +104,13 @@ void World::addModel(std::string given, float scale) {
 void World::addHitbox(std::string given, float scale, glm::vec3 location) {
 	Model * m = new Model(given, scale, location, 2);
 	addModel(m);
+}
+
+void World::testAddHelicopter() {
+	UpdatedHelicopter* m = new UpdatedHelicopter(20, glm::vec3(0, 100, 0), 1);
+	m->addForce(gravityAcceleration * m->getMass());
+	addModel(m);
+	//drivables.push_back(m);
 }
 
 void World::addVehichle(std::string given, float scale, glm::vec3 location) {
@@ -277,7 +293,7 @@ void World::renderModels() {
 	//glLineWidth(2);
 	//glPolygonMode()
 	for (int i = 0; i < models.size(); i++) {
-		models[i]->Draw(cam);
+		models[i]->Draw(cam, shaders);
 	}
 
 	for (int i = 0; i < floors.size(); i++) {

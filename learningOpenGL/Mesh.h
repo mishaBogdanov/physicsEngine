@@ -45,7 +45,7 @@ public:
 	void update(float deltaT);
 	void setVelocity(glm::vec3 givenV);
 	void scaleVelocity(float scale);
-	void updateTransLocation(glm::mat4& given, ShaderClass& shader);
+	void updateTransLocation(glm::mat4& given);
 
 };
 

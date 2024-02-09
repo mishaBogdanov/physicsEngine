@@ -10,7 +10,7 @@ private:
 	glm::vec3 localY;
 	glm::vec3 localZ;
 	glm::vec3 localX;
-	std::vector<ShaderClass> shaders;
+	//std::vector<ShaderClass> shaders;
 	bool currentlyFlying = false;
 
 	float steeringRate = 20.0f;
@@ -39,20 +39,23 @@ private:
 
 
 public:
+
+	UpdatedHelicopter(float scale, glm::vec3 physLocation, int hitbox);
 	void handleInputs(float dt) override;
 	void update(float deltaT) override;
-	void dealWithFrictionForce() override;
 	void dealWithImpulses() override;
-	void cameraControls(Camera & cam) override;
+	void cameraControls(Camera & cam, GLFWwindow* window) override;
 
-	void setCurrentlyFlying(bool given);
-	bool getCurrentlyFlying();
-	void setWantedRotation(float wanted);
-	void setWantedVerticalRotation(float wanted);
-	void setWantedRollRotation(float wanted);
-	void pitchRotate(float degrees, float deltaT);
-	void driveRotateX(float degrees, float deltaT);
-	void driveRollX(float degrees, float deltaT);
+
+	void loadAppache(float gMass) override;
+	void setCurrentlyFlying(bool given) override;
+	bool getCurrentlyFlying() override;
+	void setWantedRotation(float wanted) override;
+	void setWantedVerticalRotation(float wanted) override;
+	void setWantedRollRotation(float wanted) override;
+	void pitchRotate(float degrees, float deltaT)override;
+	void driveRotateX(float degrees, float deltaT) override;
+	void driveRollX(float degrees, float deltaT) override;
 
 
 };

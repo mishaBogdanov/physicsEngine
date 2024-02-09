@@ -143,7 +143,7 @@ protected:
 	bool loadHitbox(std::string opening, float scale,  glm::vec3 newLocation);
 	void createHitbox(float PosX, float PosY, float PosZ, float NegX, float NegY, float NegZ);
 	void setupHitbox();
-	void loadAppache(float gMass);
+	virtual void loadAppache(float gMass);
 	void setupMissile();
 
 
@@ -158,7 +158,7 @@ public:
 
 
 
-	virtual void Draw(Camera &cam);
+	virtual void Draw(Camera &cam, std::vector<ShaderClass> & shaders);
 	glm::mat4 getTransformation();
 	void setTransformation(glm::mat4 gTransfomation);
 
@@ -215,10 +215,10 @@ public:
 	glm::vec3 getForces();
 	
 	// !!!
-	void setCurrentlyDriving(bool given);
-	bool getCurrentlyDriving();
-	void setCurrentlyFlying(bool given);
-	bool getCurrentlyFlying();
+	virtual void setCurrentlyDriving(bool given);
+	virtual bool getCurrentlyDriving();
+	virtual void setCurrentlyFlying(bool given);
+	virtual bool getCurrentlyFlying();
 
 	virtual void setWantedRotation(float wanted);
 	virtual void setWantedVerticalRotation(float wanted);

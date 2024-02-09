@@ -6,12 +6,12 @@ ApacheWorld::ApacheWorld() {
 	test.setupGLFW();
 	test.addFloor(10, 100, 0, -30, 0);
 	test.setupExplosions();
+	test.setupShaders();
 	test.addModel("BasicCube.object", 1000, glm::vec3(0, -980, 0), true, false);
 	//test.addModel("TreeArea.object", 10, glm::vec3(0, 60, 0), false, false);
 
 
 	test.addVehichle("Apache.object", 20, glm::vec3(-500, 160 + 30, -500));
-
 	test.addModel("WallObject.object", 20, glm::vec3(190, 120, 0), true, true);
 	test.addModel("WallObject.object",20, glm::vec3(0, 120, 190), true, true);
 	test.addModel("WallObject.object", 20, glm::vec3(-190, 120, 0), true, true);
@@ -47,6 +47,7 @@ ApacheWorld::ApacheWorld() {
 	test.addModel("Tank.object", 10, glm::vec3(-50, 180, -50), true, true);
 	test.addModel("TeslaTruck.object", 10, glm::vec3(-110, 180, -50), true, true);
 	test.addModel("House.object", 10, glm::vec3(0, 180, 90), true, true);
+	test.testAddHelicopter();
 
 
 

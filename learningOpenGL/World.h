@@ -24,6 +24,8 @@
 #include <set>
 #include "Helicopter.h"
 #include "Explosion.h"
+#include "Drivable.h"
+#include "UpdatedHelicopter.h"
 //#include "Hitbox.h"
 //class Hitbox;
 //class Model;
@@ -47,8 +49,9 @@ private:
 	std::vector<Helicopter> helicopters = std::vector<Helicopter>();
 	std::vector<Explosion> explosionModels;
 	
-	std::vector<ShaderClass> normalShaders;
+	std::vector<ShaderClass> shaders;
 	std::vector<Model*> standardRendering;
+	std::vector<Drivable*> drivables;
 	
 
 	GLFWwindow* window;
@@ -112,6 +115,8 @@ private:
 
 public:
 	World(float distX, float distY, float distZ, int divs, bool gravity);
+	void setupShaders();
+
 	void setupGLFW();
 	void update();
 
@@ -124,6 +129,10 @@ public:
 	void addModel(std::string given, float scale, glm::vec3 location, bool hitbox, bool movable);
 	void addModel(std::string given, float scale);
 	void addModel(std::string given, float scale, bool v, glm::vec3 velocity);
+
+
+	void testAddHelicopter();
+
 
 	void addVehichle(std::string given, float scale, glm::vec3 location);
 
