@@ -21,14 +21,6 @@ void Model::setupModel(float gmass) {
 	velocity = glm::vec3(0, 0, 0);
 	angularVelocityDirection = glm::vec3(0, 0, 0);
 	facing = glm::vec3(0, 0, 1);
-	ShaderClass shaderProgram("default.vert", "default.geom", "default.frag");
-	ShaderClass shaderProgram2("default.vert", "outline.geom", "outline.frag");
-	shaders.push_back(shaderProgram);
-	shaders.push_back(shaderProgram2);
-	for (int k = 0; k < shaders.size(); k++) {
-		shaders[k].Activate();
-		glUniformMatrix4fv(glGetUniformLocation(shaders[k].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(getTransformation()));
-	}
 
 
 	movable = true;
@@ -94,26 +86,6 @@ Model::Model(std::string location, glm::vec3 physLocation) {
 	setupModel(100);
 }
 
-//Model::Model(float length, float gheight, float gz, float gx) {
-//	angularVelocity = 0;
-//	angularVelocityDirection = glm::vec3(0);
-//	cm = glm::vec3(gx, gheight, gz);
-//	facing = glm::vec3(0, 1, 0);
-//	mass = 100;
-//	originalCm = cm;
-//	translation = glm::mat4(1);
-//	up = glm::vec3(0, 1, 0);
-//	velocity = glm::vec3(0, 0, 0);
-//	hitboxVectors.push_back(glm::vec3(0, 1, 0));
-//	corners.push_back(glm::vec3(gx - length / 2, gheight, gz - length / 2));
-//	corners.push_back(glm::vec3(gx - length / 2, gheight, gz + length / 2));
-//	corners.push_back(glm::vec3(gx + length / 2, gheight, gz - length / 2));
-//	corners.push_back(glm::vec3(gx + length / 2, gheight, gz + length / 2));
-//
-//
-//	movable = false;
-//}
-
 
 Model::Model(std::string location, float scale, glm::vec3 physLocation, int hitbox) {
 	if (location == "Apache.object") {
@@ -165,84 +137,40 @@ void Model::setTransformation(glm::mat4 newTransformation) {
 //	return glm::translate(glm::mat4(1), -cm) * 
 //}
 
-void Model::Draw(Camera& cam, std::vector<ShaderClass> & gShaders) {
-	if (type == "A") {
-		mesh[1].Draw(shaders[0], cam);
-		mesh[1].Draw(shaders[1], cam);
-		mesh[0].Draw(shaders[2], cam);
-		mesh[0].Draw(shaders[3], cam);
-	}
+void Model::Draw(Camera& cam, ShaderClass & gShader) {
 
-	else {
 		for (int i = 0; i < mesh.size(); i++) {
-			for (int k = 0; k < shaders.size(); k++) {
-				mesh[i].Draw(shaders[k], cam);
-			}
+			mesh[i].Draw(gShader, cam);
 
 		}
-	}
+
 	
 	
 }
 
 void Model::update(float deltaT) {
 
-	cm = cm + velocity * deltaT;
-	//vpc::printVec(cm);
+	updatePhysics(deltaT);
+	glm::mat4 transformation = getTransformation();
+	updateMeshes(transformation);
 	
+
+}
+
+void Model::updateMeshes(glm::mat4& given) {
+	for (int i = 0; i < mesh.size(); i++) {
+		mesh[i].updateTransLocation(given);
+	}
+}
+
+void Model::updatePhysics(float deltaT) {
+	cm = cm + velocity * deltaT;
+
 	if (angularVelocityDirection.x != 0 || angularVelocityDirection.y != 0 || angularVelocityDirection.z != 0) {
 		glm::mat4 t = glm::rotate(glm::mat4(1), MyMath::getVectorMagnitude(angularVelocityDirection) * deltaT, angularVelocityDirection);
 		translation = t * translation;
 		inverseTranslation = glm::inverse(translation);
-
 	}
-
-	//localY = translation * glm::vec4(0, 1, 0, 0);
-	//localX = translation * glm::vec4(1, 0, 0, 0);
-	//localZ = translation * glm::vec4(0, 0, 1, 0);
-
-	//if (wantedSteeringPos != currentSteeringPosition) {
-	//	if (currentSteeringPosition > wantedSteeringPos) {
-	//		currentSteeringPosition = max(currentSteeringPosition - deltaT * steeringRate, wantedSteeringPos);
-	//	}
-	//	else {
-	//		currentSteeringPosition = min(currentSteeringPosition + deltaT * steeringRate, wantedSteeringPos);
-	//	}
-	//}
-
-	//if (wantedVerticalSteeringPos != currentVerticalSteeringPosition) {
-	//	if (currentVerticalSteeringPosition > wantedVerticalSteeringPos) {
-	//		currentVerticalSteeringPosition = max(currentVerticalSteeringPosition - deltaT * verticalSteeringRate, wantedVerticalSteeringPos);
-	//	}
-	//	else {
-	//		currentVerticalSteeringPosition = min(currentVerticalSteeringPosition + deltaT * verticalSteeringRate, verticalSteeringRate);
-	//	}
-	//}
-
-	//if (wantedRollSteeringPos != currentRollSteeringPosition) {
-	//	if (currentRollSteeringPosition > wantedRollSteeringPos) {
-	//		currentRollSteeringPosition = max(currentRollSteeringPosition - deltaT * rollSteeringRate, wantedRollSteeringPos);
-	//	}
-	//	else {
-	//		currentRollSteeringPosition = min(currentRollSteeringPosition + deltaT * rollSteeringRate, rollSteeringRate);
-	//	}
-	//}
-
-	//if (currentlyFlying) {
-	//	velocity = velocity * (float)pow(2, glm::length(velocity) * deltaT * (-0.01f));
-	//}
-
-	//if (currentVerticalSteeringPosition != 0) {
-	//	pitchRotate(currentVerticalSteeringPosition, deltaT);
-	//}
-
-	//if (currentSteeringPosition != 0) {
-	//	driveRotate(currentSteeringPosition, deltaT);
-	//}
-
-	//if (currentRollSteeringPosition != 0) {
-	//	driveRollX(currentRollSteeringPosition, deltaT);
-	//}
 
 	if (MyMath::getVectorMagnitudeSquared(angularVelocityDirection) < 0.0000000001) {
 		angularVelocityDirection = glm::vec3(0);
@@ -250,13 +178,8 @@ void Model::update(float deltaT) {
 	else {
 		angularVelocityDirection = angularVelocityDirection * (float)pow(2.6, -deltaT);
 	}
-
-
-	//for (int i = 0; i < corners.size(); i++) {
-	//	corners[i] = getTransformation() * glm::vec4(originalCorners[i], 1);
-	//}
 	vDueToForce = glm::vec3(0);
-	for (int i = 0; i < forces.size(); i++){
+	for (int i = 0; i < forces.size(); i++) {
 		vDueToForce += forces[i];
 	}
 	vDueToForce = vDueToForce * deltaT / mass;
@@ -267,31 +190,6 @@ void Model::update(float deltaT) {
 		glm::mat4 full = getTransformation();
 		hitboxes[i].update(&full, &translation);
 	}
-
-	
-
-	if (type == "A") {
-		//glm::mat4 bladeRotation = getTransformation()
-		//	
-		//	* glm::translate(glm::mat4(1), glm::vec3(0, 0, +0.65) * gScale) *
-		//	glm::rotate(glm::mat4(1), glm::radians(bladeRotationAngle), glm::vec3(0,1,0)) * glm::translate(glm::mat4(1), glm::vec3(0,0,-0.65) * gScale);
-		//bladeRotationAngle += bladeRotationRate * deltaT;
-		//	shaders[0].Activate();
-		//	glUniformMatrix4fv(glGetUniformLocation(shaders[0].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(getTransformation()));
-		//	shaders[1].Activate();
-		//	glUniformMatrix4fv(glGetUniformLocation(shaders[1].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(getTransformation()));
-		//	shaders[2].Activate();
-		//	glUniformMatrix4fv(glGetUniformLocation(shaders[2].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(bladeRotation));
-		//	shaders[3].Activate();
-		//	glUniformMatrix4fv(glGetUniformLocation(shaders[3].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(bladeRotation));
-		
-	}else {
-		for (int k = 0; k < shaders.size(); k++) {
-			shaders[k].Activate();
-			glUniformMatrix4fv(glGetUniformLocation(shaders[k].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(getTransformation()));
-		}
-	}
-	
 }
 
 void Model::setVelocity(glm::vec3& v) {
@@ -310,13 +208,6 @@ void Model::setPosition(glm::vec3 given) {
 	cm = given;
 }
 
-//std::vector<glm::vec3> Model::getHitboxVectors() {
-//	std::vector<glm::vec3> returning;
-//	for (int i = 0; i < hitboxVectors.size(); i++) {
-//		returning.push_back(translation * glm::vec4(hitboxVectors[i], 1));
-//	}
-//	return returning;
-//}
 
 void Model::getHitboxes(Hitbox*& firstHitbox, int& size) {
 	firstHitbox = &hitboxes[0];
@@ -981,20 +872,7 @@ void Model::loadAppache(float gmass) {
 	velocity = glm::vec3(0, 0, 0);
 	angularVelocityDirection = glm::vec3(0, 0, 0);
 	facing = glm::vec3(0, 0, 1);
-	ShaderClass shaderProgram("default.vert", "default.geom", "default.frag");
-	ShaderClass shaderProgram2("default.vert", "outline.geom", "outline.frag");
-	ShaderClass bladesShader("default.vert", "default.geom", "default.frag");
-	ShaderClass bladesShader2("default.vert", "outline.geom", "outline.frag");
 
-	shaders.push_back(shaderProgram);
-	shaders.push_back(shaderProgram2);
-	shaders.push_back(bladesShader);
-	shaders.push_back(bladesShader2);
-
-	for (int k = 0; k < shaders.size(); k++) {
-		shaders[k].Activate();
-		glUniformMatrix4fv(glGetUniformLocation(shaders[k].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(getTransformation()));
-	}
 
 
 	movable = true;
@@ -1029,17 +907,6 @@ void Model::loadAppache(float gmass) {
 
 void Model::setupMissile() {
 	type = "M";
-	shaders.clear();
-	ShaderClass shaderProgram("Missile.vert",  "Missile.frag");
-	ShaderClass shaderProgram2("default.vert", "outline.geom", "outline.frag");
-
-	shaders.push_back(shaderProgram);
-	shaders.push_back(shaderProgram2);
-
-	shaderProgram.Activate();
-	glUniformMatrix4fv(glGetUniformLocation(shaderProgram.ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(getTransformation()));
-	shaderProgram2.Activate();
-	glUniformMatrix4fv(glGetUniformLocation(shaderProgram2.ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(getTransformation()));
 }
 
 

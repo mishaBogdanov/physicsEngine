@@ -60,7 +60,7 @@ void UpdatedHelicopter::handleInputs(float dt) {
 }
 
 void UpdatedHelicopter::update(float deltaT) {
-	Model::update(deltaT);
+	Model::updatePhysics(deltaT);
 	Impulse imp;
 	imp.position = *getCm();
 	imp.direction = propellerForce;
@@ -113,18 +113,13 @@ void UpdatedHelicopter::update(float deltaT) {
 	}
 
 
+	glm::mat4 position = getTransformation();
 	glm::mat4 bladeRotation = getTransformation()
 		* glm::translate(glm::mat4(1), glm::vec3(0, 0, +0.65) * gScale) *
 		glm::rotate(glm::mat4(1), glm::radians(bladeRotationAngle), glm::vec3(0, 1, 0)) * glm::translate(glm::mat4(1), glm::vec3(0, 0, -0.65) * gScale);
 	bladeRotationAngle += bladeRotationRate * deltaT;
-	shaders[0].Activate();
-	glUniformMatrix4fv(glGetUniformLocation(shaders[0].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(getTransformation()));
-	shaders[1].Activate();
-	glUniformMatrix4fv(glGetUniformLocation(shaders[1].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(getTransformation()));
-	shaders[2].Activate();
-	glUniformMatrix4fv(glGetUniformLocation(shaders[2].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(bladeRotation));
-	shaders[3].Activate();
-	glUniformMatrix4fv(glGetUniformLocation(shaders[3].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(bladeRotation));
+	mesh[0].updateTransLocation(bladeRotation);
+	mesh[1].updateTransLocation(position);
 }
 
 void UpdatedHelicopter::dealWithImpulses() {
@@ -217,20 +212,6 @@ void UpdatedHelicopter::loadAppache(float gmass) {
 	velocity = glm::vec3(0, 0, 0);
 	angularVelocityDirection = glm::vec3(0, 0, 0);
 	facing = glm::vec3(0, 0, 1);
-	ShaderClass shaderProgram("default.vert", "default.geom", "default.frag");
-	ShaderClass shaderProgram2("default.vert", "outline.geom", "outline.frag");
-	ShaderClass bladesShader("default.vert", "default.geom", "default.frag");
-	ShaderClass bladesShader2("default.vert", "outline.geom", "outline.frag");
-
-	shaders.push_back(shaderProgram);
-	shaders.push_back(shaderProgram2);
-	shaders.push_back(bladesShader);
-	shaders.push_back(bladesShader2);
-
-	for (int k = 0; k < shaders.size(); k++) {
-		shaders[k].Activate();
-		glUniformMatrix4fv(glGetUniformLocation(shaders[k].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(getTransformation()));
-	}
 
 
 	movable = true;

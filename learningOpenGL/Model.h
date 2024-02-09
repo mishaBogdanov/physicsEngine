@@ -73,8 +73,7 @@ protected:
 	glm::vec3 angularVelocityDirection;
 
 
-	// !!! to remove shaders.
-	std::vector<ShaderClass> shaders;
+
 
 	// is true if an object can be moved, is false if it can't
 	bool movable;
@@ -144,6 +143,8 @@ protected:
 	void createHitbox(float PosX, float PosY, float PosZ, float NegX, float NegY, float NegZ);
 	void setupHitbox();
 	virtual void loadAppache(float gMass);
+	virtual void updatePhysics(float deltaT);
+	virtual void updateMeshes(glm::mat4& given);
 	void setupMissile();
 
 
@@ -158,7 +159,7 @@ public:
 
 
 
-	virtual void Draw(Camera &cam, std::vector<ShaderClass> & shaders);
+	virtual void Draw(Camera &cam, ShaderClass & shaders);
 	glm::mat4 getTransformation();
 	void setTransformation(glm::mat4 gTransfomation);
 

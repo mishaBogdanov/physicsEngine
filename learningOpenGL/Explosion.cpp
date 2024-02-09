@@ -18,9 +18,9 @@ void Explosion::update(float dt) {
 }
 
 void Explosion::draw() {
-	std::vector<ShaderClass> shaders;
+	ShaderClass shader = ShaderClass("asdf", "asdf");
 	if (active) {
-		gModel->Draw(*gCam, shaders);
+		gModel->Draw(*gCam, shader);
 	}
 }
 

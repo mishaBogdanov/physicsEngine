@@ -32,6 +32,12 @@ void World::setupShaders() {
 	ShaderClass shaderProgram2("default.vert", "outline.geom", "outline.frag");
 	shaders.push_back(shaderProgram);
 	shaders.push_back(shaderProgram2);
+	glm::mat4 t = glm::mat4(1);
+	for (int k = 0; k < shaders.size(); k++) {
+		shaders[k].Activate();
+		glUniformMatrix4fv(glGetUniformLocation(shaders[k].ID, "positionMatrix"), 1, GL_FALSE, glm::value_ptr(t));
+		cam.Matrix(shaders[k]);
+	}
 }
 
 
@@ -290,22 +296,26 @@ void World::processInput() {
 }
 
 void World::renderModels() {
-	//glLineWidth(2);
-	//glPolygonMode()
-	for (int i = 0; i < models.size(); i++) {
-		models[i]->Draw(cam, shaders);
-	}
+	for (int k = 0; k < shaders.size(); k++) {
+		shaders[k].Activate();
+		cam.Matrix(shaders[k]);
+		for (int i = 0; i < models.size(); i++) {
+			models[i]->Draw(cam, shaders[k]);
+		}
 
+
+	}
 	for (int i = 0; i < floors.size(); i++) {
 		floors[i].Draw(cam);
 	}
 
-	for (int i = 0; i < explosionModels.size(); i++) {
-		if (explosionModels[i].getEnabled()) {
-			explosionModels[i].draw();
+	//for (int i = 0; i < explosionModels.size(); i++) {
+	//	if (explosionModels[i].getEnabled()) {
+	//		explosionModels[i].draw();
 
-		}
-	}
+	//	}
+	//}
+	
 
 }
 
