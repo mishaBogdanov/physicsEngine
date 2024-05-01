@@ -120,6 +120,9 @@
     <ClCompile Include="UpdatedHelicopter.cpp">
       <Filter>Source Files\modelStuff</Filter>
     </ClCompile>
+    <ClCompile Include="PhysicsEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShaderClass.h">
@@ -198,6 +201,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="UpdatedHelicopter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

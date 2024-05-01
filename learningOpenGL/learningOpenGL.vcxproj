@@ -149,6 +149,7 @@
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="MyMath.cpp" />
+    <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="rawTesla.cpp" />
     <ClCompile Include="RoomWorld.cpp" />
     <ClCompile Include="ShaderClass.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="MyMath.h" />
+    <ClInclude Include="PhysicsEngine.h" />
     <ClInclude Include="rawTesla.h" />
     <ClInclude Include="RoomWorld.h" />
     <ClInclude Include="ShaderClass.h" />

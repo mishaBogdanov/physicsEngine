@@ -22,6 +22,7 @@ World::World(float distX, float distY, float distZ, int divs, bool gravity) {
 	models.reserve(200);
 	helicopters.reserve(30);
 	explosionModels.reserve(20);
+	PhysicsEngine.setVector(&models);
 
 
 }
@@ -308,15 +309,6 @@ void World::renderModels() {
 	for (int i = 0; i < floors.size(); i++) {
 		floors[i].Draw(cam);
 	}
-
-	//for (int i = 0; i < explosionModels.size(); i++) {
-	//	if (explosionModels[i].getEnabled()) {
-	//		explosionModels[i].draw();
-
-	//	}
-	//}
-	
-
 }
 
 void World::update() {
@@ -429,13 +421,14 @@ void World::startRenderLoop() {
 
 		cam.setMatrix(90.0f, 5.0f, 2000.0f);
 
-		update();
-		detectCollisions();
-		dealWithCollisions();
-		dealWithExplosions();
-		eraseExplosions();
-		applyDealWithImpulses();
-		applyDrag(deltaT);
+		//update();
+		//detectCollisions();
+		//dealWithCollisions();
+		//dealWithExplosions();
+		//eraseExplosions();
+		//applyDealWithImpulses();
+		//applyDrag(deltaT);
+		PhysicsEngine.updateEngine(deltaT);
 
 		renderModels();
 
@@ -943,7 +936,6 @@ glm::vec3 World::calculateTVec(Model& m1, Model& m2, glm::vec3& pos, glm::vec3& 
 		glm::vec3 case1 = vr - normal * glm::dot(vr, normal);
 		return case1;
 	}
-	//}else if()
 }
 
 void World::dealWithImpulse(Model& m1, Model& m2) {

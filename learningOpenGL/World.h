@@ -26,6 +26,7 @@
 #include "Explosion.h"
 #include "Drivable.h"
 #include "UpdatedHelicopter.h"
+#include "PhysicsEngine.h"
 //#include "Hitbox.h"
 //class Hitbox;
 //class Model;
@@ -80,6 +81,8 @@ private:
 	glm::vec3 gravityAcceleration = glm::vec3(0,-98, 0);
 	float dragConstant = 1.03;
 	bool gravityEnabled = false;
+
+	PhysicsEngine PhysicsEngine;
 
 
 
