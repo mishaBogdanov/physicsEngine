@@ -90,9 +90,6 @@
     <ClCompile Include="TextureClass.cpp">
       <Filter>Source Files\openGL</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Users\slomi\OneDrive\Desktop\glad.c">
-      <Filter>Source Files\openGL</Filter>
-    </ClCompile>
     <ClCompile Include="Model.cpp">
       <Filter>Source Files\modelStuff</Filter>
     </ClCompile>
@@ -122,6 +119,9 @@
     </ClCompile>
     <ClCompile Include="PhysicsEngine.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\AppData\Local\Temp\Rar$DRa13316.34250\src\glad.c">
+      <Filter>Source Files\openGL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
