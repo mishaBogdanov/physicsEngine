@@ -25,7 +25,8 @@ physics implementation:
   - a hitbox only mode: is designed to make map creation easier. Allows you to import a set of cubes which act as independent, immovable and invisible hitboxes in the world. that's how I generated the hitboxes on the Dust 2 map, by going in blender and putting in boxes inside the walls of a downloaded dust 2 replica. I then imported the dust 2 map as a no physics model, and imported the hitboxes in the hitbox only mode. This allowed me to not bother having to manually put hitboxes inside my engine, but rather inside blender.
   - an immovable object with a hitbox: this is how I make the floor and the ramp in the demonstration video. these objects are unable to move, and will bounce any other (movable) object of its surface.
 - collision detection is done through separating axis theorem
-- all the objects detected to be colliding than project the maximums and minimums of their hitboxes onto each other to generate the contact points.
+- contact point generation is done by iterating through the axis-aligned bounding boxes and generating edge-edge and point face collisions.
+- I then separate the objects to make sure they're not inside eachother.
 - I then use a rigidbody formula for generating the appropriate impulses on all the points of contact, and divides each of them by the number of points of contact.
 - The engine supports multiple iteration solution, however for my showcase I found it sufficient to just use 1 iteration.
 - after applying the impulses, it goes over all the points of contact, and applies a friction force that is proportional to the collision impulse. it then checks if the relative velocities of the 2 points are still in the same direction, and if not cancels the application of the force.
